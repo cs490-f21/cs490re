@@ -1,0 +1,23 @@
+h1 {
+    text-align: center;
+    margin: 0 auto 1.5rem !important;
+}
+
+code {
+    background-color: #ebf5ff;
+    color: #0366d6;
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    border-radius: 0.4em;
+}
+
+.center {
+    text-align: center;
+    margin: 0 auto;
+}
+
+.page-nav {
+    background-color: white;
+    padding-top: 1em;
+}

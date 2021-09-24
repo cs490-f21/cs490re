@@ -1,0 +1,29 @@
+.center-form {
+    width: 20%;
+    min-width: 300px;
+    padding: 1rem 1rem;
+    margin: 0 auto 1rem;
+    border: 1px solid transparent;
+    border-color: #dddddd;
+    border-radius: 0.25rem;
+}
+
+.inner-title {
+    margin: 0 auto 1rem;
+}
+
+.role-desc {
+    border: 1px solid transparent;
+    border-color: #dddddd;
+    border-radius: 0.25rem;
+    padding: 0.5rem 0.5rem;
+    margin: 0.5rem;
+}
+.role-active {
+    color: black;
+}
+
+.role-inactive {
+    color: gray;
+    background-color: gainsboro;
+}

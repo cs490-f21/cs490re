@@ -1,0 +1,91 @@
+nav {
+    background-color: #001f3f;
+}
+
+.nav-rol {
+    list-style-type: none;
+    height: 3.5em;
+}
+
+.nav-item {
+    float: left;
+    padding: 16px;
+    display: block;
+}
+
+.nav-item a {
+    color: white;
+    text-decoration: none;
+}
+
+.nav-item:hover {
+    background-color: #0074D9;
+}
+
+.nav-item a:hover {
+    color: white !important;
+    text-decoration: none;
+}
+
+.nav-title {
+    float: left;
+    padding: 16px 16px 16px 0;
+    display: block;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-sep {
+    float: left;
+    padding: 16px 0 16px 0;
+    display: block;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.dropdown {
+    float: left;
+    overflow: none;
+}
+  
+.dropdown .dropbtn { 
+    border: none;
+    outline: none;
+    color: white;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+}
+  
+.dropdown:hover .dropbtn {
+    background-color: #0074D9;
+}
+  
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    margin-top: 3.5em;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+  
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+  
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+  
+.dropdown:hover .dropdown-content {
+    display: block;
+}
