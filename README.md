@@ -1,7 +1,7 @@
 # cs490re
 
 - Fall 2021 CS 490 Project Reboot
-- Live Site: https://cs490.kage.moe
+- Live Site: http://cs490.kage.moe
 - Github Link: https://github.com/cs490-f21/cs490re/
 
 ### Contributions
