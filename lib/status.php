@@ -71,4 +71,10 @@ $status_messages = [
     'ROL_NOTFOUND' =>   ['Current user has a non-exist role', FLASH_WARN],
     'ROL_UNKNOWN' =>    ['Unknown internal status', FLASH_WARN],
     'ROL_INTERERR' =>   ['Internal server error', FLASH_ERRO],
+
+    //Database
+
+    'INS_SUCCESS' =>    ['Question insertion success', FLASH_SUCC],
+    'INS_FAIL' =>       ['Question failed to insert into database', FLASH_ERRO],
+
 ];

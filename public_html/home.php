@@ -12,10 +12,10 @@ if (user_login_check()) {
     user_reload();
 }
 ?>
-
+    
 <h1>Home</h1>
-
 <?php if (user_login_check()): ?>
+
 
 <div class="center-form">
 <h5 class="center">Welcome, <?php write(user_get_username()); ?>!</h5>
@@ -43,7 +43,7 @@ if (user_login_check()) {
     <?php endif; ?>
 </div>
 </div>
-
+    
 <?php else: ?>
 
 <div class="center-form">
