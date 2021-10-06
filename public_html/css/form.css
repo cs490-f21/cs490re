@@ -27,3 +27,22 @@
     color: gray;
     background-color: gainsboro;
 }
+
+.input-form {
+    width: 40%;
+    min-width: 300px;
+    padding: 1rem 1rem;
+    margin: 0 auto 1rem;
+    border: 1px solid transparent;
+    border-color: #dddddd;
+    border-radius: 0.25rem;
+}
+
+table {
+    width: 100%;
+    border: 1px solid #000;
+}
+
+table tr {
+    border-bottom: 1px solid #000
+}

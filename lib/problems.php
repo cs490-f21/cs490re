@@ -1,8 +1,8 @@
 <?php
 
-function create_problem(string $title, string $type, string $level, string $desc) : Status {
+function create_problem(string $title, string $type, string $level, string $desc, array $cases, array $results) : Status {
     $db = getDB();
-    $stmt = $db->prepare("INSERT INTO Problem (title, type, level, description) 
+    $stmt = $db->prepare("INSERT INTO Problems (title, type, level, description) 
                             VALUES (:title, :type, :level, :desc)");
 
     $message = '';
@@ -16,11 +16,32 @@ function create_problem(string $title, string $type, string $level, string $desc
     return new Status($message);
 }
 
-function load_problems() : array{
+function load_problems(){
     $db = getDB();
     $stmt = $db->prepare("SELECT * FROM Problems");
     $stmt->execute();
     return $stmt->fetchAll();
+}
+
+function create_test_case(int $q_id, array $cases, array $results) {
+    $db = getDB();
+    $q_id = $db->lastInsertId();
+
+    $query = "INSERT INTO Testcases (for_problem, input, output) VALUES";
+    for($i = 0; $i < 3; $i++) {
+        $query .= "(:q_id, :case_i, :result_i)";
+        if($i < 3) {
+            $query .= ",";
+        }
+    }
+    $stmt = $db->prepare($query);
+    $stmt->bindValue(":q_id", $q_id);
+    for($i = 0; $i < 3; $i++) {
+        $stmt->bindValue(":case_i", $cases[i]);
+        $stmt->bindValue("result_i", $results[i]);
+    }
+    $stmt->execute();
+
 }
 
 ?> 

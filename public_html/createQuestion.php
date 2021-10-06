@@ -20,6 +20,8 @@ if(isset($_POST['submit'])) {
     $title = get($_POST, "title", null);
     $level = get($_POST, "level", null);
     $desc = get($_POST, "desc", null);
+    $cases = get($_POST, "cases[]", null);
+    $results = get($_POST, "results[]", null);
 
     $flag = true;
     $totalCases = 0;
@@ -40,21 +42,66 @@ if(isset($_POST['submit'])) {
         addFlash("Questions must have a description", FLASH_WARN);
         $flag = false;
     }
+    if(!isset($cases) || !isset($results) || count($cases) != 3 || count($results) != 3) {
+        addFlash("Missing test cases or results", FLASH_WARN);
+        $flag = false;
+    }
     if($flag) {
-        create_problem($title, $type, $level, $desc);
+        create_problem($title, $type, $level, $desc); 
+        create_test_case($cases, $results);
     }
 }
 
 ?>
 
 <div>
-    <h1> Fill in your question <h1>
-    <form method="POST"> 
-        <input type="text" name="title" placeholder="title"> </input> 
-        <input type="text" name="type" placeholder="type"> </input> 
-        <input type="text" name="level" placeholder="level"> </input> 
-        <input type="text" name="desc" placeholder="description"> </input> 
-        <input type="submit" class="btn btn-primary" name="submit"> </input> 
+    <h1> Fill in your question </h1>
+    <form class="input-form" method="POST"> 
+        <div class="mb-3">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" name="title" placeholder="Question Title"> 
+        </div>
+        <div class="mb-3">
+            <label for="type">Question type:</label>
+            <input type="text" class="form-control" name="type" placeholder="Conditional, Loops, etc)">  
+        </div>
+        <div class="mb-3">
+            <label for="level">Difficulty:</label>
+            <input type="text" class="form-control" name="level" placeholder="Difficulty (Easy, Medium, Hard)">
+        </div>
+        <div class="mb-3">
+            <label for="desc">Description:</label>
+            <textarea type="text" class="form-control" name="desc" placeholder="Question Description" rows="5"></textarea>
+        </div>
+
+        <h1> Test Cases: </h1>
+        <div class="mb-3">
+            <label for="cases[]">Test Case 1:</label>
+            <input type="text" name="cases[]" placeholder="Test Case 1">
+        </div>
+        <div class="mb-3">
+            <label for="results[]">Test Case 1 Expected Output:</label>
+            <input type="text" name="results[]" placeholder="Output for Test Case 1">
+        </div>
+        <div class="mb-3">
+            <label for="cases[]">Test Case 2:</label>
+            <input type="text" name="cases[]" placeholder="Test Case 2">
+        </div>
+        <div class="mb-3">
+            <label for="results[]">Test Case 2 Expected Output:</label>
+            <input type="text" name="results[]" placeholder="Output for Test Case 2">
+        </div>
+        <div class="mb-3">
+            <label for="cases[]">Test Case 3:</label>
+            <input type="text" name="cases[]" placeholder="Test Case 3">
+        </div>
+        <div class="mb-3">
+            <label for="results[]">Test Case 3 Expected Output:</label>
+            <input type="text" name="results[]" placeholder="Output for Test Case 3">
+        </div>
+        <div>
+            <input type="submit" class="btn btn-primary" name="submit">
+        </div>
     </form> 
 </div>
 

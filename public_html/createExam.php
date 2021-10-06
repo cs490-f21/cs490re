@@ -14,9 +14,26 @@ if (user_login_check()) {
     user_reload();
 }
 
-
-
-
+if (!user_admin_check()) {
+    die(header("Location: home.php"));
+}
 
 
 ?>
+
+<table>
+    <tr>
+        <th> Checkbox </th>
+        <th> Description </th>
+    </tr>
+    <form>
+        <tr>
+            <td> Test1 </td>
+            <td> Test2 </td>
+        </tr>
+        <tr>
+            <td> Test3 </td>
+            <td> Test4 </td>
+        </tr>
+    </form>
+</table>
