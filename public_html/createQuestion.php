@@ -24,19 +24,19 @@ if(isset($_POST['submit'])) {
 
     $flag = true;
 
-    if(!isset($type)) {
+    if(!isset($type) || empty($type)) {
         addFlash("Question type is undefined", FLASH_WARN);
         $flag = false;
     }
-    if(!isset($title)) {
+    if(!isset($title) || empty($title)) {
         addFlash("Questions must have a title", FLASH_WARN);
         $flag = false;
     }
-    if(!isset($level)){
+    if(!isset($level) || empty($level)){
         addFlash("Questions must have a difficulty", FLASH_WARN);
         $flag = false;
     }
-    if(!isset($desc)) {
+    if(!isset($desc) || empty($desc)) {
         addFlash("Questions must have a description", FLASH_WARN);
         $flag = false;
     }
@@ -61,7 +61,8 @@ if(isset($_POST['submit'])) {
         </div>
         <div class="mb-3">
             <label for="type">Question type:</label>
-            <select name="type">
+            <select name="type">         
+               <option value="">Select here</option>
                 <option value="1">Loops</option>
                 <option value="2">Conditional</option>
                 <option value="3">Dictionary</option>
@@ -70,6 +71,7 @@ if(isset($_POST['submit'])) {
         <div class="mb-3">
             <label for="level">Difficulty:</label>
             <select name="level">
+                <option value="">Select here</option>
                 <option value="1">Easy</option>
                 <option value="2">Medium</option>
                 <option value="3">Hard</option>
