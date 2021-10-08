@@ -28,11 +28,11 @@ if (!user_admin_check()) {
     </tr>
     <form>
         <tr>
-            <td> Test1 </td>
+            <td><input type="checkbox"> </td>
             <td> Test2 </td>
         </tr>
         <tr>
-            <td> Test3 </td>
+            <td> <input type="checkbox"> </td>
             <td> Test4 </td>
         </tr>
     </form>
