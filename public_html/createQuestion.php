@@ -22,6 +22,7 @@ if(isset($_POST['submit'])) {
     $desc = get($_POST, "desc", null);
     $cases = get($_POST, "cases", null);
 
+    $sortedCases = array(array($cases[0], $cases[1]), array($cases[2], $cases[3]),array($cases[4], $cases[5]));  
     $flag = true;
 
     if(!isset($type) || empty($type)) {
@@ -45,7 +46,7 @@ if(isset($_POST['submit'])) {
         $flag = false;
     }
     if($flag) {
-        create_problem($title, $type, $level, $desc, $cases); 
+        create_problem($title, $type, $level, $desc, $sortedCases); 
         addFlash("Question successfully created", FLASH_SUCC);
     }
 }
@@ -85,34 +86,33 @@ if(isset($_POST['submit'])) {
         <h1> Test Cases: </h1>
         <div class="mb-3">
             <label for="cases[]">Test Case 1:</label>
-            <input type="text" name="cases[0][0]" placeholder="Test Case 1">
+            <input type="text" name="cases[]" placeholder="Test Case 1">
         </div>
         <div class="mb-3">
             <label for="cases[]">Test Case 1 Expected Output:</label>
-            <input type="text" name="cases[0][1]" placeholder="Output for Test Case 1">
+            <input type="text" name="cases[]" placeholder="Output for Test Case 1">
         </div>
         <div class="mb-3">
             <label for="cases[]">Test Case 2:</label>
-            <input type="text" name="cases[1][0]" placeholder="Test Case 2">
+            <input type="text" name="cases[]" placeholder="Test Case 2">
         </div>
         <div class="mb-3">
-            <label for="casess[]">Test Case 2 Expected Output:</label>
-            <input type="text" name="cases[1][1]" placeholder="Output for Test Case 2">
+            <label for="cases[]">Test Case 2 Expected Output:</label>
+            <input type="text" name="cases[]" placeholder="Output for Test Case 2">
         </div>
         <div class="mb-3">
             <label for="cases[]">Test Case 3:</label>
-            <input type="text" name="cases[2][0]" placeholder="Test Case 3">
+            <input type="text" name="cases[]" placeholder="Test Case 3">
         </div>
         <div class="mb-3">
             <label for="cases[]">Test Case 3 Expected Output:</label>
-            <input type="text" name="results[2][1]" placeholder="Output for Test Case 3">
+            <input type="text" name="cases[]" placeholder="Output for Test Case 3">
         </div>
         <div>
             <input type="submit" class="btn btn-primary" name="submit">
         </div>
     </form> 
 </div>
-
 
 <?php use_template('flash.php', true, true); ?>
 <?php use_template('footer.php', true, true); ?>

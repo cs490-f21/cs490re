@@ -8,12 +8,12 @@ function create_problem(string $title, int $type, int $level, string $desc, arra
     $message = '';
     try {
         $stmt->execute([":title" => $title, ":type" => $type, ":level" => $level, ":desc" => $desc]);
-        $q_id = $db->lastInsertId("Problems");
-        $stmt = $db->prepare("INSERT INTO Testcases (for_problem, input, output) VALUES (:q_id, :cases, :result)");
-        for($i=0; $i<3; $i++) {
-            $stmt->bindValue(':q_id', $q_id);
-            $stmt->bindValue(':cases', $cases[$i][0]);
-            $stmt->bindValue(':result', $cases[$i][1]);
+        $q_id = $db->query("SELECT MAX(id) from Problems")->fetch();
+        foreach($cases as $case) {    
+            $stmt = $db->prepare("INSERT INTO Testcases (for_problem, input, output) VALUES (:q_id, :cases, :result)");
+            $stmt->bindValue(':q_id', implode("", $q_id));
+            $stmt->bindValue(':cases', $case[0]);
+            $stmt->bindValue(':result', $case[1]);
             $stmt->execute();
         }
         $message = 'INS_SUCCESS';
