@@ -2,16 +2,16 @@
 
 function create_problem(string $title, int $type, int $level, string $desc, array $cases) : Status {
     $db = getDB();
-    //$stmt = $db->prepare("INSERT INTO Problems (title, type, level, description) 
+    $stmt = $db->prepare("INSERT INTO Problems (title, type, level, description) 
                             //VALUES (:title, :type, :level, :desc)");
 
     $message = '';
     try {
-        //$stmt->execute([":title" => $title, ":type" => $type, ":level" => $level, ":desc" => $desc]);
+        $stmt->execute([":title" => $title, ":type" => $type, ":level" => $level, ":desc" => $desc]);
         $q_id = $db->query("SELECT MAX(id) from Problems")->fetch();
         foreach($cases as $case) {    
             $stmt = $db->prepare("INSERT INTO Testcases (for_problem, case_order, title, input, output, weight) 
-                                VALUES (:q_id, :order, :title :cases, :result, :weight)");
+                                VALUES (:q_id, :order, :title, :cases, :result, :weight)");
             $stmt->bindValue(':order', 1);
             $stmt->bindValue(':title', "Testcase");
             $stmt->bindValue(':q_id', implode("", $q_id));
@@ -35,5 +35,22 @@ function load_problems(){
     return $stmt->fetchAll();
 }
 
+function validate_cases(array $cases) {
+    $min_cases = 1;
+    $case_count = 0;
+    $isValid = true;
+    foreach($cases as $case) {
+        if(isset($case[0]) && isset($case[1])) {
+            $case_count++;
+        } else{
+            addFlash("Case or expected output is missing, or both", FLASH_WARN);
+            return $isValid = false;
+        }
+    }
+    if ($case_count < $min_cases) {
+        $isValid = false;
+    }
+    return $isValid;
+}
 
 ?> 

@@ -23,9 +23,7 @@ if(isset($_POST['submit'])) {
     $cases = get($_POST, "cases", null);
 
     $sortedCases = array(array($cases[0], $cases[1]), array($cases[2], $cases[3]),array($cases[4], $cases[5]));  
-    foreach($sortedCases as $case){
-        //echo $case[0] . "   " . $case[1] . "<br>"; 
-    }
+
     $flag = true;
 
     if(!isset($type) || empty($type)) {
@@ -44,13 +42,10 @@ if(isset($_POST['submit'])) {
         addFlash("Questions must have a description", FLASH_WARN);
         $flag = false;
     }
-    if(!isset($cases)) {
-        addFlash("Missing test cases or results", FLASH_WARN);
-        $flag = false;
-    }
-    
+    $flag = validate_cases($sortedCases);
+
     if($flag) {
-        create_problem($title, $type, $level, $desc, $sortedCases); 
+        //create_problem($title, $type, $level, $desc, $sortedCases); 
         addFlash("Question successfully created", FLASH_SUCC);
     }
 }
