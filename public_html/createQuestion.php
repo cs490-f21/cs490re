@@ -45,7 +45,7 @@ if(isset($_POST['submit'])) {
     $flag = validate_cases($sortedCases);
 
     if($flag) {
-        //create_problem($title, $type, $level, $desc, $sortedCases); 
+        create_problem($title, $type, $level, $desc, $sortedCases); 
         addFlash("Question successfully created", FLASH_SUCC);
     }
 }

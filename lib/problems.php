@@ -3,23 +3,26 @@
 function create_problem(string $title, int $type, int $level, string $desc, array $cases) : Status {
     $db = getDB();
     $stmt = $db->prepare("INSERT INTO Problems (title, type, level, description) 
-                            //VALUES (:title, :type, :level, :desc)");
+                            VALUES (:title, :type, :level, :desc)");
 
     $message = '';
     try {
-        $stmt->execute([":title" => $title, ":type" => $type, ":level" => $level, ":desc" => $desc]);
+        $stmt->execute(array(":title" => $title, ":type" => $type, ":level" => $level, ":desc" => $desc));
         $q_id = $db->query("SELECT MAX(id) from Problems")->fetch();
+        $stmt = $db->prepare("INSERT INTO Testcases (for_problem, case_order, title, input, output, weight) 
+            VALUES (:q_id, :order, :title, :case, :result, :weight)");
+        $order = 1;
         foreach($cases as $case) {    
-            $stmt = $db->prepare("INSERT INTO Testcases (for_problem, case_order, title, input, output, weight) 
-                                VALUES (:q_id, :order, :title, :cases, :result, :weight)");
-            $stmt->bindValue(':order', 1);
-            $stmt->bindValue(':title', "Testcase");
             $stmt->bindValue(':q_id', implode("", $q_id));
-            $stmt->bindValue(':cases', $case[0]);
+            $stmt->bindValue(':order', $order);
+            $stmt->bindValue(':title', "Testcase");
+            $stmt->bindValue(':case', $case[0]);
             $stmt->bindValue(':result', $case[1]);
             $stmt->bindValue(':weight', 1);
+            $order++;
+            $result = $stmt->execute();
+            $result = [];
         }
-        $stmt->execute();
         $message = 'INS_SUCCESS';
     }
     catch (PDOexception $e){ 
@@ -48,6 +51,7 @@ function validate_cases(array $cases) {
         }
     }
     if ($case_count < $min_cases) {
+        addFlash("Minimum of 1 test case required");
         $isValid = false;
     }
     return $isValid;
