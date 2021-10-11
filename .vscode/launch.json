@@ -29,7 +29,7 @@
             "name": "Launch Built-in web server",
             "type": "php",
             "request": "launch",
-            "runtimeExecutable": "/usr/local/bin/php",
+            "runtimeExecutable": "C:\\root\\php\\php-8.0.6\\php.exe",
             "runtimeArgs": [
                 "-dxdebug.mode=debug",
                 "-dxdebug.start_with_request=yes",
