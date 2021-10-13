@@ -15,7 +15,7 @@ if (!user_admin_check()) {
     die(header("Location: home.php"));
 }
 
-if(isset($_POST['submit'])) {
+if (isset($_POST['submit'])) {
     $type = get($_POST, "type", null);
     $title = get($_POST, "title", null);
     $level = get($_POST, "level", null);
@@ -26,25 +26,25 @@ if(isset($_POST['submit'])) {
 
     $flag = true;
 
-    if(!isset($type) || empty($type)) {
+    if (!isset($type) || empty($type)) {
         addFlash("Question type is undefined", FLASH_WARN);
         $flag = false;
     }
-    if(!isset($title) || empty($title)) {
-        addFlash("Questions must have a title", FLASH_WARN);
+    if (!isset($title) || empty($title)) {
+        addFlash("Question must have a title", FLASH_WARN);
         $flag = false;
     }
-    if(!isset($level) || empty($level)){
-        addFlash("Questions must have a difficulty", FLASH_WARN);
+    if (!isset($level) || empty($level)){
+        addFlash("Question must have a difficulty", FLASH_WARN);
         $flag = false;
     }
-    if(!isset($desc) || empty($desc)) {
-        addFlash("Questions must have a description", FLASH_WARN);
+    if (!isset($desc) || empty($desc)) {
+        addFlash("Question must have a description", FLASH_WARN);
         $flag = false;
     }
     $flag = validate_cases($sortedCases);
 
-    if($flag) {
+    if ($flag) {
         create_problem($title, $type, $level, $desc, $sortedCases); 
         addFlash("Question successfully created", FLASH_SUCC);
     }
@@ -74,7 +74,7 @@ if(isset($_POST['submit'])) {
                 <option value="">Select here</option>
                 <option value="1">Easy</option>
                 <option value="2">Medium</option>
-                <option value="3">Hard</option>
+                <option value="3">Hard</option> 
             </select>
         </div>
         <div class="mb-3">

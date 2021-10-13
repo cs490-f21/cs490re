@@ -57,4 +57,30 @@ function validate_cases(array $cases) {
     return $isValid;
 }
 
+function display_type(int $num): string {
+    
+    if($num == 1) {
+        return "Loop";
+    }
+    if($num == 2) {
+        return "Conditional";
+    }
+    if($num == 3) {
+        return "Dictionary";
+    }
+}
+
+function display_level(int $num): string {
+    
+    if($num == 1) {
+        return "Easy";
+    }
+    if($num == 2) {
+        return "Medium";
+    }
+    if($num == 3) {
+        return "Hard";
+    }
+}
+
 ?> 
