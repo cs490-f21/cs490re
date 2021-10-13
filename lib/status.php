@@ -73,8 +73,12 @@ $status_messages = [
     'ROL_INTERERR' =>   ['Internal server error', FLASH_ERRO],
 
     //Database
-
     'INS_SUCCESS' =>    ['Question insertion success', FLASH_SUCC],
     'INS_FAIL' =>       ['Question failed to insert into database', FLASH_ERRO],
 
+    // Judging
+    'JDG_PASSED' =>     ['Testcase passed', FLASH_SUCC],
+    'JDG_FAILED' =>     ['Testcase failed', FLASH_WARN],
+    'JDG_UNKNOWN' =>    ['Unknown internal status', FLASH_WARN],
+    'JDG_INTERERR' =>   ['Internal server error', FLASH_ERRO],
 ];
