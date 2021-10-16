@@ -51,8 +51,7 @@ if (isset($_POST["submit"])){
     }
     if ($flag) {
         createExam($title, $desc, $points, $q_ids);
-        addFlash("Exam successfully created", FLASH_SUCC); 
-
+        addFlash("Exam successfully created, redirecting in 2 seconds", FLASH_SUCC); 
     }
 }
 ?>
@@ -87,7 +86,7 @@ if (isset($_POST["submit"])){
         <?php endforeach; ?> 
     </table>
     <div>
-            <input type="submit" class="btn btn-primary" name="submit">
+        <input type="submit" class="btn btn-primary" name="submit">
     </div>
 </form>
 

@@ -38,4 +38,44 @@ function createExam(string $title, string $desc, array $points, array $question)
     return new Status($message);
 }
 
+function generateExamId() {
+    $db = getDB();
+    $stmt = $db->query("SELECT id FROM Exams");
+    return $stmt->fetchAll();
+}
+
+function generateExam(int $id) {
+    $db = getDB();
+    $stmt = $db->query("SELECT id, title, description FROM Problems WHERE id in (SELECT with_problem FROM ExamParts WHERE $id=for_exam)");
+    return $stmt->fetchAll();
+}
+
+function getExamPartDetails(int $exam_id) {
+    $db = getDB();
+    $stmt = $db->query("SELECT * from ExamParts where for_exam=$exam_id");
+    return $stmt->fetchAll();
+
+}
+
+function submitExam(array $p_id, int $u_id, array $answers) : Status {
+    $db = getDB();
+    $stmt = $db->prepare("INSERT INTO Submissions (for_part, from_student, answer) VALUES (:part, :student, :answer)");
+    $message = '';
+    try {
+        for($i = 0; $i < count($p_id); $i++) {
+            $stmt->bindValue(':part', $p_id[$i]);
+            $stmt->bindValue(':student', $u_id);
+            $stmt->bindValue(':answer', $answers[$i]);
+            $result = $stmt->execute();
+            $result = [];
+        }
+        $message = 'INS_SUCCESS';
+    }
+    catch (PDOexception $e){ 
+        $message = 'INS_FAIL';
+    }  
+    return new Status($message);
+
+}
+
 ?>
