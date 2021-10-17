@@ -1,5 +1,5 @@
 <?php
-// [isSuccess, messageOutput]
+// [statusCode, messageOutput]
 function run_judgement(string $code, string $input, string $output): array {
     $buffer = [];
     $status = 'JDG_UNKNOWN';
@@ -31,7 +31,7 @@ function run_judgement(string $code, string $input, string $output): array {
 
     $log = implode("\n", $buffer);
     $log = str_replace($path, "submission.py", $log);
-    return [$status, $log];
+    return [new Status($status), $log];
 }
 
 function build_judgement(string $code, string $input, string $output): string {

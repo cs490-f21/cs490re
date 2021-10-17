@@ -81,4 +81,10 @@ $status_messages = [
     'JDG_FAILED' =>     ['Testcase failed', FLASH_WARN],
     'JDG_UNKNOWN' =>    ['Unknown internal status', FLASH_WARN],
     'JDG_INTERERR' =>   ['Internal server error', FLASH_ERRO],
+
+    // Grading
+    'GRD_SUCCESS' =>    ['Autograde completed', FLASH_SUCC],
+    'GRD_NOPENDING' =>  ['No item is pending to grade', FLASH_WARN],
+    'GRD_UNKNOWN' =>    ['Unknown internal status', FLASH_WARN],
+    'GRD_INTERERR' =>   ['Internal server error', FLASH_ERRO],
 ];
