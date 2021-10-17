@@ -26,7 +26,7 @@
                     <li><a href="createQuestion.php">Create Question</a></li>
                     <li><a href="createExam.php">Create Exam</a></li>
                 <?php else : ?>
-                    <li><a href="takeExam.php">Take Exam</a></li>
+                    <li><a href="selectExam.php">Take Exam</a></li>
                     <li><a href="reviewExam.php">Review Exam</a></li>
 
                 <?php endif; ?>

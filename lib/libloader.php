@@ -10,4 +10,5 @@ require_once (LIBRARY_DIR . '/template.php');
 require_once (LIBRARY_DIR . '/user.php');
 require_once (LIBRARY_DIR . '/validator.php');
 require_once (LIBRARY_DIR . '/problems.php');
+require_once (LIBRARY_DIR . '/exam.php');
 require_once (LIBRARY_DIR . '/judging.php');
