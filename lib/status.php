@@ -84,7 +84,12 @@ $status_messages = [
 
     // Grading
     'GRD_SUCCESS' =>    ['Autograde completed', FLASH_SUCC],
-    'GRD_NOPENDING' =>  ['No item is pending to grade', FLASH_WARN],
+    'GRD_NOPENDING' =>  ['No submission is pending to grade', FLASH_SUCC],
     'GRD_UNKNOWN' =>    ['Unknown internal status', FLASH_WARN],
     'GRD_INTERERR' =>   ['Internal server error', FLASH_ERRO],
+
+    // Grading
+    'CMT_SUCCESS' =>    ['---PLACEHOLDER---', FLASH_SUCC],
+    'CMT_UNKNOWN' =>    ['Unknown internal status', FLASH_WARN],
+    'CMT_INTERERR' =>   ['Internal server error', FLASH_ERRO],
 ];
