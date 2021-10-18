@@ -61,7 +61,7 @@ function autograde_exam(int $exam): Status {
             JOIN Testcases t
                 ON p.id = t.for_problem
             WHERE ep.for_exam = :exam
-            ORDER BY p.id"
+            ORDER BY p.id ASC, t.case_order ASC"
     );
 
     $argSub = [":exam" => $exam];
@@ -73,7 +73,7 @@ function autograde_exam(int $exam): Status {
 function autograde_all(): Status {
     $db = getDB();
     $stmtSub = $db->prepare(
-        "SELECT s.id, s.answer, s.point, ep.with_problem as problem
+        "SELECT s.id, s.answer, s.point. s.message, ep.with_problem as problem
             FROM Submissions s
             JOIN ExamParts ep
                 ON ep.id = s.for_part
@@ -88,7 +88,7 @@ function autograde_all(): Status {
                 ON ep.with_problem = p.id
             JOIN Testcases t
                 ON p.id = t.for_problem
-            ORDER BY p.id"
+            ORDER BY p.id ASC, t.case_order ASC"
     );
 
     $argSub = [];
@@ -99,7 +99,7 @@ function autograde_all(): Status {
 
 function __autograde_core(object $db, object $stmtSub, array $argSub, object $stmtProb, array $argProb): Status {
     $stmtApply = $db->prepare(
-        "UPDATE Submissions SET point = :grade WHERE id = :id"
+        "UPDATE Submissions SET point = :grade, result1 = :result1, result2 = :result2, result3 = :result3 WHERE id = :id"
     );
 
     $message = 'GRD_UNKNOWN';
@@ -140,19 +140,33 @@ function __autograde_core(object $db, object $stmtSub, array $argSub, object $st
 
             $testcases = $problems[$pid];
             $submissions[$id]["point"] = 0;
+
+            $i = 1;
             foreach($testcases as $testcase) {
-                $result = run_judgement($submission["answer"], $testcase["input"], $testcase["output"]);
+                $code = $submission["answer"];
+                $fixed = fix_function_name($code, $testcase["input"]);
+                $result = run_judgement($code, $testcase["input"], $testcase["output"]);
+                
                 if ($result[0]->isSuccess()) {
-                    $submissions[$id]["point"] += $testcase["point"];
+                    $submissions[$id]["point"] += $testcase["point"] * ($fixed ? 1.0 : 0.8);
+                    $submissions[$id]["message" . $i] = $fixed ? "Passed: Success" : "Passed: Wrong Function Name";
                 }
                 else {
-                    // add comment about error
+                    $submissions[$id]["message" . $i] = $result[1];
                 }
+
+                $i++;
             }
         }
 
         foreach($submissions as $submission) {
-            $stmtApply->execute([":grade" => $submission["point"], ":id" => $submission["id"]]);
+            $stmtApply->execute([
+                ":grade" => intval($submission["point"]), 
+                ":result1" => $submission["message1"], 
+                ":result2" => $submission["message2"], 
+                ":result3" => $submission["message3"], 
+                ":id" => $submission["id"]
+            ]);
         }
 
         $message = 'GRD_SUCCESS';
@@ -170,7 +184,7 @@ function collect_result_submission(int $submission, array &$results) {
     $stmtSub = $db->prepare(
         "SELECT s.id, s.from_student, u.username, 
                 ep.point as possible, s.point, 
-                s.answer, s.created as answer_time,
+                s.answer, s.result1, s.result2, s.result3, created as answer_time,
                 ep.part_order, p.title, p.description, p.level, p.type
             FROM Submissions s
             JOIN ExamParts ep
@@ -200,7 +214,7 @@ function collect_result_user(int $exam, array &$results, int $user = -1) {
     $stmtSub = $db->prepare(
         "SELECT s.id, s.from_student, u.username, 
                 ep.point as possible, s.point, 
-                s.answer, s.created as answer_time,
+                s.answer, s.result1, s.result2, s.result3, s.created as answer_time,
                 ep.part_order, p.title, p.description, p.level, p.type
             FROM Submissions s
             JOIN ExamParts ep
@@ -223,7 +237,7 @@ function collect_result_all(int $exam, array &$results) {
     $stmtSub = $db->prepare(
         "SELECT s.id, s.from_student, u.username, 
                 ep.point as possible, s.point, 
-                s.answer, s.created as answer_time,
+                s.answer, s.result1, s.result2, s.result3, s.created as answer_time,
                 ep.part_order, p.title, p.description, p.level, p.type
             FROM Submissions s
             JOIN ExamParts ep

@@ -6,6 +6,9 @@ CREATE TABLE IF NOT EXISTS Submissions (
     created      TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified     TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     point        INTEGER         DEFAULT NULL,
+    result1      VARCHAR(4096)   DEFAULT NULL,
+    result2      VARCHAR(4096)   DEFAULT NULL,
+    result3      VARCHAR(4096)   DEFAULT NULL,
 
     FOREIGN KEY (for_part) REFERENCES ExamParts(id),
     FOREIGN KEY (from_student) REFERENCES Users(id),

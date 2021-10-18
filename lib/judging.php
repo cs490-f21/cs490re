@@ -43,3 +43,23 @@ function build_judgement(string $code, string $input, string $output): string {
     $tmpl = str_replace("{{user_output}}", $output, $tmpl);
     return $tmpl;
 }
+
+// return false if name mismatch and fixed
+function fix_function_name(string &$code, string $testcase): bool {
+    $pattern = "/\s*([a-zA-Z0-9_]+)\s*\(/";
+    $matches = [];
+    if (!preg_match_all($pattern, $testcase, $matches)) return false;
+    $casename = $matches[1][0];
+
+    $pattern = "/def\s+([a-zA-Z0-9_]+)\s*\(/";
+    $matches = [];
+    if (!preg_match_all($pattern, $code, $matches)) return false;
+    $funcname = $matches[1][0];
+
+    if ($funcname !== $casename) {
+        $code = str_replace($matches[0], "def " . $casename . "(", $code);
+        return false;
+    }
+
+    return true;
+}
