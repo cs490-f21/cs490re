@@ -2,61 +2,41 @@
 
 <?php use_template('header.php', true, true); ?>
 
-<title>Exam in Progress</title>
+<title>Select exam</title>
 
 <?php use_template('resource.php', true, true); ?>
 <?php use_template('nav.php', true, true); ?>
 
 <?php
 
+if (!user_login_check()) {
+    die(header("Location: login.php"));
+}
+
 if (user_login_check()) {
     user_reload();
 }
 
-if(empty($_SESSION["exam"])) {
-    die(header("Location: selectExam.php"));
+if(isset($_POST["exam_id"])) {
+    $_SESSION["exam"] = $_POST["exam_id"];
+    header("Location: takeExam2.php");
 }
 
-if(isset($_POST['submit'])) {
-    $user_id = user_get_id();
-    $solutions = get($_POST, "solutions", null);
-    $parts = getExamPartDetails($_SESSION["exam"]);
-    $part_id = [];
-
-    foreach($parts as $p){
-        array_push($part_id, $p['id']);
-    }
-
-    submitExam($part_id, $user_id, $solutions);
-    unset($_SESSION["exam"]);
-    header("Location: selectExam.php");
-}
 ?>
 
 <form method="POST">
-    <?php 
-    if(!empty($_SESSION["exam"])) {
-        $questions = generateExam((int)$_SESSION["exam"]);
-        $q_order = 1;
-    }
-    ?>
-    <h1> Taking exam <?php echo $_SESSION["exam"]; ?>. Good luck!! </h1>
-    <?php foreach($questions as $q) : ?>
-    <div>
-        <?php echo $q_order . ") " . $q["description"]; $q_order++;?>
-    </div>
-    <div>
-        <label for="solutions[]">Write your code here:</label>
-        <textarea type="text" name="solutions[]" placeholder="Code Here" rows="15" cols="100"></textarea><br><br>
-    </div>
-    <?php endforeach; ?>
+    <?php $exam_id = generateExamId(); ?>
+    <h1>Please select the appropriate exam id provided.</h1>
+    <select id="exam" name="exam_id" ;>
+        <option value="">Select ID here</option>
+        <?php foreach($exam_id as $exam) :?>
+            <option value="<?php echo $exam['id'] ?>"><?php echo $exam['id'] ?></option>
+        <?php endforeach; ?>
+    </select>
     <div>
         <input type="submit" class="btn btn-primary" name="submit">
     </div>
-
 </form>
-
-
 
 <?php use_template('flash.php', true, true); ?>
 <?php use_template('footer.php', true, true); ?>

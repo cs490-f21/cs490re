@@ -1,4 +1,5 @@
-<?php
+<?php // author: Jiyuan Zhang
+
 define('FLASH_INFO', 'info');
 define('FLASH_SUCC', 'success');
 define('FLASH_ERRO', 'danger');

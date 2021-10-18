@@ -1,4 +1,5 @@
-<?php
+<?php // author: Jiyuan Zhang
+
 function change_grade(int $submission, int | null $grade) {
     $db = getDB();
     $stmtSub = $db->prepare(
@@ -135,6 +136,8 @@ function __autograde_core(object $db, object $stmtSub, array $argSub, object $st
 
         foreach ($submissions as $id => $submission) {
             $pid = $submission["problem"];
+            if (!isset($problems[$pid])) continue;
+
             $testcases = $problems[$pid];
             $submissions[$id]["point"] = 0;
             foreach($testcases as $testcase) {
@@ -160,6 +163,29 @@ function __autograde_core(object $db, object $stmtSub, array $argSub, object $st
     }
 
     return new Status($message);
+}
+
+function collect_result_submission(int $submission, array &$results) {
+    $db = getDB();
+    $stmtSub = $db->prepare(
+        "SELECT s.id, s.from_student, u.username, 
+                ep.point as possible, s.point, 
+                s.answer, s.created as answer_time,
+                ep.part_order, p.title, p.description, p.level, p.type
+            FROM Submissions s
+            JOIN ExamParts ep
+                ON ep.id = s.for_part
+            JOIN Problems p
+                ON ep.with_problem = p.id
+            JOIN Users u
+                ON s.from_student = u.id
+            WHERE s.id = :sub
+            LIMIT 1"
+    );
+
+    $argSub = [":sub" => $submission];
+
+    return __collect_result_core($db, $stmtSub, $argSub, $results);
 }
 
 function collect_result_user(int $exam, array &$results, int $user = -1) {

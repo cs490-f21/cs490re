@@ -1,4 +1,4 @@
-<?php
+<?php // author: Jiyuan Zhang
 
 /**
  * Represents a status code object.
@@ -52,6 +52,7 @@ $status_messages = [
     'USR_RLDSUCC' =>    ['---PLACEHOLDER---', FLASH_SUCC],
     'USR_PROFSELF' =>   ['---PLACEHOLDER---', FLASH_SUCC],
     'USR_PROFPUBL' =>   ['---PLACEHOLDER---', FLASH_SUCC],
+    'USR_SUCCESS' =>   ['---PLACEHOLDER---', FLASH_SUCC],
     
     'USR_UNAUTHED' =>   ['You need to login first', FLASH_WARN],
     'USR_NOTALLOW' =>   ['You already have an account', FLASH_WARN],

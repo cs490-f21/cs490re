@@ -1,4 +1,4 @@
-<?php
+<?php // author: Jiyuan Zhang
 
 $role_table = null;
 

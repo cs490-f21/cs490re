@@ -9,6 +9,10 @@
 
 <?php
 
+if (!user_login_check()) {
+    die(header("Location: login.php"));
+}
+
 if (user_login_check()) {
     user_reload();
 }

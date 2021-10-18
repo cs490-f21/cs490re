@@ -1,4 +1,5 @@
 <?php
+
 // Path config file.
 define('LIBRARY_DIR', __DIR__ . '/');
 define('PARTIAL_DIR', __DIR__ . '/../partials/');

@@ -1,4 +1,4 @@
-<?php
+<?php // author: Jiyuan Zhang
 
 // This file should always synchronize with /public_html/js/validator.js
 

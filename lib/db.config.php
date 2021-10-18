@@ -1,4 +1,5 @@
-<?php
+<?php // author: Jiyuan Zhang
+
 // DB Config Loader, don't use this directly
 $ini = @parse_ini_file('.env');
 $db_url = '';

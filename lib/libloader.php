@@ -1,4 +1,5 @@
 <?php
+
 // Load all libraries at once. You only need to `require_once` this file in the library directory.
 require_once (__DIR__ . '/pconfig.php');
 require_once (LIBRARY_DIR . '/db.php');

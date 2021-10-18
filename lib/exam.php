@@ -40,7 +40,7 @@ function createExam(string $title, string $desc, array $points, array $question)
 
 function generateExamId() {
     $db = getDB();
-    $stmt = $db->query("SELECT id FROM Exams");
+    $stmt = $db->query("SELECT id, title FROM Exams");
     return $stmt->fetchAll();
 }
 

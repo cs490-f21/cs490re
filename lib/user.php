@@ -1,4 +1,4 @@
-<?php
+<?php // author: Jiyuan Zhang
 // checks
 /**
  * Check if a user is logged in.
@@ -20,6 +20,33 @@ function user_logout() : Status {
     // end_session();
 
     return new Status('USR_LOUTSUCC');
+}
+
+/**
+ * Perform user login.
+ */
+function list_users(array &$users) : Status {
+    start_session();
+    
+    $db = getDB();
+    $stmt = $db->prepare(
+        "SELECT id, email, COALESCE(username, email) AS username
+            FROM Users
+            ORDER BY username ASC"
+    );
+
+    $message = 'USR_UNKNOWN';
+    $users = [];
+
+    try {
+        $stmt->execute();
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $message = 'USR_SUCCESS';
+    } catch (Exception $e) {
+        $message = 'USR_INTERERR';
+    }
+
+    return new Status($message);
 }
 
 /**
@@ -434,6 +461,8 @@ function user_has_roles(int $roleid, bool $requireActive) : bool {
  * Safely check if current user is an admin.
  */
 function user_admin_check() : bool {
+    if (!user_login_check()) return false;
+
     $adminRole = -1;
     $status = role_get_id("admin", $adminRole);
     if (!$status->is('ROL_SUCCESS')) {

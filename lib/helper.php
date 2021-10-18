@@ -1,4 +1,5 @@
-<?php
+<?php // author: Jiyuan Zhang
+
 // output
 /**
  * Escape a string for HTML output.

@@ -8,9 +8,14 @@
 <?php use_template('nav.php', true, true); ?>
 
 <?php
+if (!user_login_check()) {
+    die(header("Location: login.php"));
+}
+
 if (user_login_check()) {
     user_reload();
 }
+
 if (!user_admin_check()) {
     die(header("Location: home.php"));
 }

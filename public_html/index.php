@@ -1,4 +1,6 @@
-<?php require_once(__DIR__ . '/lib.php'); ?>
+<?php // author: Jiyuan Zhang
+require_once(__DIR__ . '/lib.php');
+?>
 
 <?php
     if (user_login_check()) {

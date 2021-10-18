@@ -1,6 +1,7 @@
-<?php
+<?php // author: Jiyuan Zhang
+
 function add_comment(int $submission, string $content, int $user = -1) {
-    if ($user == 0) {
+    if ($user == -1) {
         if (!user_login_check())
             return new Status('USR_UNAUTHED');
         

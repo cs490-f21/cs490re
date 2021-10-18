@@ -1,4 +1,5 @@
-<?php
+<?php // author: Jiyuan Zhang
+
 // [statusCode, messageOutput]
 function run_judgement(string $code, string $input, string $output): array {
     $buffer = [];

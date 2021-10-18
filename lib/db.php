@@ -1,4 +1,5 @@
-<?php
+<?php // author: Jiyuan Zhang
+
 /**
  * Get PDO database instance
  */

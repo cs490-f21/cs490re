@@ -20,16 +20,16 @@
 
         <?php if (user_login_check()) : ?>
             <div class="dropdown">
-                <button class="nav-item dropbtn">Task Menu</i></button>
+                <button class="nav-item dropbtn">Exam</i></button>
                 <div class="dropdown-content">
                 <?php if (user_admin_check()) : ?>
                     <li><a href="createQuestion.php">Create Question</a></li>
                     <li><a href="createExam.php">Create Exam</a></li>
-                <?php else : ?>
-                    <li><a href="selectExam.php">Take Exam</a></li>
-                    <li><a href="reviewExam.php">Review Exam</a></li>
-
+                    <li><a href="autograde.php">Autograde Exam</a></li>
+                    <li><a href="auditExam.php">Audit Exam</a></li>
                 <?php endif; ?>
+                    <li><a href="takeExam.php">Take Exam</a></li>
+                    <li><a href="reviewExam.php">Review Exam</a></li>
                 </div>
             </div> 
         <?php endif; ?>
