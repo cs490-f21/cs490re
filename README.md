@@ -19,8 +19,26 @@
 
 ##### Wai Lun Chan (wc347)
 
-- TBD
+- Auxiliary work 
 
 ##### Kush Patel (kp673)
 
-- TBD
+- None (Health Issue)
+
+#### Stage 2
+
+##### Jiyuan Zhang (jz579)
+
+- Grading & Judging Infrastructure (Task 4a)
+- Result Auditing Component (Task 4b)
+- Result Displaying Component (Task 5)
+
+##### Wai Lun Chan (wc347)
+
+- Question Making Component (Task 1)
+- Exam Making Component (Task 2)
+- Exam Taking Component (Task 3)
+
+##### Kush Patel (kp673)
+
+- None (Unknown Reason)
