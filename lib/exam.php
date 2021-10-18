@@ -78,4 +78,31 @@ function submitExam(array $p_id, int $u_id, array $answers) : Status {
 
 }
 
+function updateExamStatus(int $exam, int $student, int $status) : Status {
+    $db = getDB();
+    $stmt = $db->prepare("INSERT INTO ExamStatus (for_exam, from_student, status) VALUES ($exam,$student,$status)");
+    $message = '';
+    try {
+        $stmt->execute();
+        $message = 'INS_SUCCESS';
+    }
+    catch (PDOexception $e){ 
+        $message = 'INS_FAIL';
+    }  
+    return new Status($message);
+
+}
+/*
+function getExamStatus(int $id) {
+    $db = getDB();
+    $stmt = $db->query("SELECT status from submission ");
+
+
+
+}
+*/
+
+
+
+
 ?>

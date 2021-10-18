@@ -27,6 +27,7 @@
                     <li><a href="createExam.php">Create Exam</a></li>
                     <li><a href="autograde.php">Autograde Exam</a></li>
                     <li><a href="auditExam.php">Audit Exam</a></li>
+                    <li><a href="examStatus.php">Exam Status</a></li>
                 <?php endif; ?>
                     <li><a href="takeExam.php">Take Exam</a></li>
                     <li><a href="reviewExam.php">Review Exam</a></li>

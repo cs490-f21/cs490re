@@ -32,6 +32,7 @@ if(isset($_POST['submit'])) {
     }
 
     submitExam($part_id, $user_id, $solutions);
+    updateExamStatus($_SESSION["exam"], $user_id, 1);
     unset($_SESSION["exam"]);
     header("Location: takeExam.php");
 }
