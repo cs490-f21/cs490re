@@ -55,7 +55,8 @@ if (isset($_POST["submit"])){
     }
     if ($flag) {
         createExam($title, $desc, $points, $q_ids);
-        addFlash("Exam successfully created, redirecting in 2 seconds", FLASH_SUCC); 
+        unset($_SESSION["list"]);
+        header("Location: createExam.php");
     }
 }
 ?>
@@ -90,9 +91,15 @@ if (isset($_POST["submit"])){
         <?php endforeach; ?> 
     </table>
     <div>
-        <input type="submit" class="btn btn-primary" name="submit">
+        <input id="submit" type="submit" class="btn btn-primary" name="submit">
     </div>
 </form>
+
+<script>
+    $("#submit").click(function() {
+        alert("Exam Added");
+    });
+</script>
 
 <?php use_template('flash.php', true, true); ?>
 <?php use_template('footer.php', true, true); ?>
