@@ -4,7 +4,7 @@ require_once(__DIR__ . '/lib.php');
 
 <?php use_template('header.php', true, true); ?>
 
-<title>Review Exam</title>
+<title>Exam Status</title>
 
 <?php use_template('resource.php', true, true); ?>
 <?php use_template('nav.php', true, true); ?>
