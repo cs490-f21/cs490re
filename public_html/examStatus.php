@@ -45,16 +45,25 @@ if(isset($_POST["exam_id"]) && validate_number($_POST["exam_id"], 1, 2147483646)
         </div>
     </form>
 <?php else : ?>
-<?php
-    $status = getExamStatus($selected_exam);
-    foreach($status as $s) {
-        echo $s["from_student"] . "   " . displayStatusCode($s["status"]) . "<br>"; 
-    }
-
-
-?>
+<?php $status = getExamStatus($selected_exam); ?>
+<h1> Displaying current status of exam <?php write(getExamName($selected_exam)); ?> </h1>
+<table>
+    <tr>
+        <th>User id</th>
+        <th>Status</th>
+    </tr>
+    <?php foreach($status as $s) : ?>
+        <tr>
+            <td>
+                <?php write($s["from_student"]); ?>
+            </td>
+            <td>
+                <?php write(displayStatusCode($s["status"])); ?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
 <?php endif; ?>
-
 
 
 <?php use_template('flash.php', true, true); ?>
