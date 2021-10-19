@@ -24,12 +24,11 @@ foreach ($available_exam as $exam) {
 $selected_exam = -1;
 if(isset($_POST["exam_id"]) && validate_number($_POST["exam_id"], 1, 2147483646)) {
     $selected_exam = intval($_POST["exam_id"]);
-    echo $selected_exam;
 }
 
 ?>
 
-<?php if (array_search($selected_exam, $available_exam_ids) === false) ?>
+<?php if (array_search($selected_exam, $available_exam_ids) === false) : ?>
     <h1>Check the status of an exam</h1>
     <form class="center-form" method="POST" onsubmit="return validate(this);">
         <div class="mb-3">
@@ -45,8 +44,16 @@ if(isset($_POST["exam_id"]) && validate_number($_POST["exam_id"], 1, 2147483646)
             <input type="submit" class="btn btn-primary" name="submit" value="Submit" />
         </div>
     </form>
+<?php else : ?>
+<?php
+    $status = getExamStatus($selected_exam);
+    foreach($status as $s) {
+        echo $s["from_student"] . "   " . displayStatusCode($s["status"]) . "<br>"; 
+    }
 
 
+?>
+<?php endif; ?>
 
 
 
