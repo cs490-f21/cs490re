@@ -44,6 +44,13 @@ function generateExamId() {
     return $stmt->fetchAll();
 }
 
+function getExamName(int $id) {
+    $db = getDB();
+    $stmt = $db->query("SELECT title FROM Exams WHERE id=$id");
+    $result = $stmt->fetch();
+    return $result['title'];
+}
+
 function generateExam(int $id) {
     $db = getDB();
     $stmt = $db->query("SELECT id, title, description FROM Problems WHERE id in (SELECT with_problem FROM ExamParts WHERE $id=for_exam)");
@@ -96,7 +103,7 @@ function updateExamStatus(int $exam, int $student, int $status) : Status {
 
 }
 
-function getExamStatus(int $exam, int $student) {
+function getExamStatusDirect(int $exam, int $student) {
     $db = getDB();
     $stmt = $db->prepare("SELECT status from ExamStatus WHERE for_exam = :exam AND from_student = :student LIMIT 1");
     $message = '';
@@ -117,6 +124,40 @@ function getExamStatus(int $exam, int $student) {
 }
 
 
+function getExamStatus(int $id) {
+    $db = getDB();
+    $stmt = $db->query("SELECT * from ExamStatus WHERE for_exam=$id");
+    return $stmt->fetchAll();
+
+}
+
+function displayStatusCode(int $code) {
+    if ($code == 0) {
+        return "Not Taken";
+    }
+    if ($code == 1) {
+        return "Pending Grade";
+    }    
+    if ($code == 2) {
+        return "Exam Graded";
+    }
+    if ($code == 3) {
+        return "Not Visible";
+    }
+}
+
+function filterExams(int $u_id, array $e_id) : array {
+    $db = getDB();
+    $filtered = $e_id;
+    $stmt = $db->query("SELECT * FROM ExamStatus WHERE from_student=$u_id");
+    $result = $stmt->fetchAll();
+    foreach($result as $r) {
+        if($r['status'] != 0) {
+            unset($filtered[array_search($r['for_exam'],$filtered)]);
+        } 
+    }
+    return $filtered;
+}
 
 
 

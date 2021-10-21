@@ -26,11 +26,18 @@ if(isset($_POST["exam_id"])) {
 
 <form method="POST">
     <?php $exam_id = generateExamId(); ?>
+    <?php 
+    $ids = [];
+    foreach($exam_id as $id) {
+        array_push($ids, $id['id']);
+    }    
+    $filtered = filterExams(user_get_id(), $ids); 
+    ?>
     <h1>Please select the appropriate exam id provided.</h1>
     <select id="exam" name="exam_id" ;>
         <option value="">Select ID here</option>
-        <?php foreach($exam_id as $exam) :?>
-            <option value="<?php echo $exam['id'] ?>"><?php echo $exam['id'] ?></option>
+        <?php foreach($filtered as $filter) :?>
+            <option value="<?php echo $filter ?>"><?php echo $filter ?></option>
         <?php endforeach; ?>
     </select>
     <div>

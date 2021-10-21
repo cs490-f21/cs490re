@@ -71,7 +71,7 @@ if(isset($_POST["user_id"]) && validate_number($_POST["user_id"], 1, 2147483646)
     
     $results = [];
     $status = collect_result_user($selected_exam, $results, $selected_user);
-    $stage = getExamStatus($selected_exam, $selected_user);
+    $stage = getExamStatusDirect($selected_exam, $selected_user);
     if (!$status->isSuccess() || count($results) == 0) {
         addFlash('The student have not taken the exam.', FLASH_WARN);
         $results = [];

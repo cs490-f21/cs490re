@@ -45,7 +45,7 @@ if(isset($_POST['submit'])) {
         $q_order = 1;
     }
     ?>
-    <h1> Taking exam <?php echo $_SESSION["exam"]; ?>. Good luck!! </h1>
+    <h1> Taking exam <?php echo getExamName($_SESSION["exam"]); ?>. Good luck!! </h1>
     <?php foreach($questions as $q) : ?>
     <div>
         <?php echo $q_order . ") " . $q["description"]; $q_order++;?>
@@ -56,12 +56,15 @@ if(isset($_POST['submit'])) {
     </div>
     <?php endforeach; ?>
     <div>
-        <input type="submit" class="btn btn-primary" name="submit">
+        <input id="submit" type="submit" class="btn btn-primary" name="submit">
     </div>
-
 </form>
 
-
+<script>
+    $("#submit").click(function() {
+        alert("Exam Submitted");
+    });
+</script>
 
 <?php use_template('flash.php', true, true); ?>
 <?php use_template('footer.php', true, true); ?>
