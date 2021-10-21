@@ -51,7 +51,7 @@ if (isset($_POST['sub_present']) && $_POST['sub_present'] == "1") {
     }
 
     if(!isset($_POST["sub_comment"]) || !validate_string($_POST["sub_comment"], 1024)) {
-        $valid = false;
+        $valid = (strlen($_POST["sub_comment"]) == 0);
     }
 
     $sub_id = intval($_POST["sub_id"]);

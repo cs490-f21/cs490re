@@ -80,7 +80,10 @@ function submitExam(array $p_id, int $u_id, array $answers) : Status {
 
 function updateExamStatus(int $exam, int $student, int $status) : Status {
     $db = getDB();
-    $stmt = $db->prepare("INSERT INTO ExamStatus (for_exam, from_student, status) VALUES ($exam,$student,$status)");
+    $stmt = $db->prepare("INSERT INTO ExamStatus (for_exam, from_student, status) VALUES ($exam,$student,$status)
+    ON CONFLICT ON CONSTRAINT examstatus_for_exam_from_student_key
+    DO UPDATE SET status = EXCLUDED.status
+    ");
     $message = '';
     try {
         $stmt->execute();
@@ -92,15 +95,27 @@ function updateExamStatus(int $exam, int $student, int $status) : Status {
     return new Status($message);
 
 }
-/*
-function getExamStatus(int $id) {
+
+function getExamStatus(int $exam, int $student) {
     $db = getDB();
-    $stmt = $db->query("SELECT status from submission ");
+    $stmt = $db->prepare("SELECT status from ExamStatus WHERE for_exam = :exam AND from_student = :student LIMIT 1");
+    $message = '';
+    $status = 0;
+    try {
+        $stmt->execute([':exam' => $exam, ':student' => $student]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($result) {
+            $status = $result["status"];
+        }
+        $message = 'INS_SUCCESS';
+    }
+    catch (PDOexception $e){ 
+        $message = 'INS_FAIL';
+    }  
 
-
-
+    return $status;
 }
-*/
+
 
 
 

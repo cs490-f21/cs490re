@@ -48,9 +48,18 @@ if(isset($_POST["exam_id"]) && validate_number($_POST["exam_id"], 1, 2147483646)
     <?php 
     
     $results = [];
+    $user = user_get_id();
     $status = collect_result_user($selected_exam, $results);
+    $stage = getExamStatus($selected_exam, $user);
     if (!$status->isSuccess() || count($results) == 0) {
         addFlash('You have not taken the exam.', FLASH_WARN);
+        $results = [];
+        goto Fail;
+    }
+
+    if ($stage != 2) {
+        addFlash('You cannot view the result at this time.', FLASH_WARN);
+        $results = [];
         goto Fail;
     }
 
