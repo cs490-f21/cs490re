@@ -45,7 +45,7 @@ function change_grade(int $submission, int | null $grade) {
 function autograde_exam(int $exam): Status {
     $db = getDB();
     $stmtSub = $db->prepare(
-        "SELECT s.id, s.answer, s.point, ep.with_problem as problem
+        "SELECT s.id, s.answer, s.point, s.result1, s.result2, s.result3, s.from_student as student, ep.with_problem as problem, ep.for_exam as exam
             FROM Submissions s
             JOIN ExamParts ep
                 ON ep.id = s.for_part
@@ -73,7 +73,7 @@ function autograde_exam(int $exam): Status {
 function autograde_all(): Status {
     $db = getDB();
     $stmtSub = $db->prepare(
-        "SELECT s.id, s.answer, s.point. s.message, ep.with_problem as problem
+        "SELECT s.id, s.answer, s.point, s.result1, s.result2, s.result3, s.from_student as student, ep.with_problem as problem, ep.for_exam as exam
             FROM Submissions s
             JOIN ExamParts ep
                 ON ep.id = s.for_part
@@ -160,11 +160,12 @@ function __autograde_core(object $db, object $stmtSub, array $argSub, object $st
         }
 
         foreach($submissions as $submission) {
+            updateExamStatus($submission["exam"], $submission["student"], 2);
             $stmtApply->execute([
                 ":grade" => intval($submission["point"]), 
-                ":result1" => $submission["message1"], 
-                ":result2" => $submission["message2"], 
-                ":result3" => $submission["message3"], 
+                ":result1" => $submission["result1"], 
+                ":result2" => $submission["result2"], 
+                ":result3" => $submission["result3"], 
                 ":id" => $submission["id"]
             ]);
         }
@@ -184,7 +185,7 @@ function collect_result_submission(int $submission, array &$results) {
     $stmtSub = $db->prepare(
         "SELECT s.id, s.from_student, u.username, 
                 ep.point as possible, s.point, 
-                s.answer, s.result1, s.result2, s.result3, created as answer_time,
+                s.answer, s.result1, s.result2, s.result3, s.created as answer_time,
                 ep.part_order, p.title, p.description, p.level, p.type
             FROM Submissions s
             JOIN ExamParts ep

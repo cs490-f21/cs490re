@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS ExamStatus (
     modified            TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (for_exam) REFERENCES Exams(id),
-    FOREIGN KEY (from_student) REFERENCES Users(id)
+    FOREIGN KEY (from_student) REFERENCES Users(id),
+    UNIQUE (for_exam, from_student)
 );
 --!!
 DROP TRIGGER IF EXISTS update_examstatus_modified ON ExamStatus;
