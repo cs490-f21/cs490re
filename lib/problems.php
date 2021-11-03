@@ -60,13 +60,13 @@ function validate_cases(array $cases) {
 function display_type(int $num): string {
     
     if($num == 1) {
-        return "Loop";
+        return "For Loop";
     }
     if($num == 2) {
-        return "Conditional";
+        return "While Loop";
     }
     if($num == 3) {
-        return "Dictionary";
+        return "Recursion";
     }
 }
 

@@ -68,9 +68,9 @@ if (isset($_POST['submit'])) {
             <label for="type">Question type:</label>
             <select name="type">         
                <option value="">Select here</option>
-                <option value="1">Loops</option>
-                <option value="2">Conditional</option>
-                <option value="3">Dictionary</option>
+                <option value="1">For Loop</option>
+                <option value="2">While Loop</option>
+                <option value="3">Recursion</option>
             </select>
         </div>
         <div class="mb-3">

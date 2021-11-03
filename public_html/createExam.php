@@ -20,53 +20,195 @@ if (user_login_check()) {
 if (!user_admin_check()) {
     die(header("Location: home.php"));
 }
-
-if (isset($_POST["submit"])){
-    $list = get($_POST, "q_id", null);
-
-    $flag = true;
-    
-    if (empty($list)){
-        addFlash("Exams must have a question");
-        $flag = false;
-    }
-    if ($flag) {
-        session_start();
-        $_SESSION["list"] = $list;
-        header("Location: createExam2.php");
-    }
-}
-
 ?>
 
-<form method="POST">
-    <table>
-    <tr>
-        <th> Checkbox </th>
-        <th> Description </th>
-    </tr>
-        <?php $questions = load_problems(); ?>
-        <?php foreach($questions as $q): echo "<tr>" ?> 
-        <?php echo "<td>";  ?>
-            <input type="checkbox" name="q_id[]" value="<?php echo $q['id']; ?>" > 
-        <?php echo "</td>"; ?>
-        <?php echo "<td>"; ?> 
-            <p id="<?php echo $q['id']; ?>"> 
-                <b><u>Id:</u></b> <?php echo $q['id']; ?> <br>
-                <b><u>Title:</u></b> <?php echo $q['title']; ?> <br>                                  
-                <b><u>Description:</u></b> <?php echo $q['description']; ?> <br>
-                <b><u>Type:</u></b> <?php echo display_type($q['type']); ?> <br>
-                <b><u>Level:</u></b> <?php echo display_level($q['level']); ?> <br>
-            </p>
-        <?php echo "</td>" ?>
-        <?php endforeach; ?> 
-    </table>
+<?php if (!isset($_POST["selection"])) : ?>
     <div>
-            <input type="submit" class="btn btn-primary" name="submit">
+        <h1>Select questions to be on the exam</h1>
     </div>
-</form>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1>Filter By:</h1>
+                <div style:display="in-line">
+                    <label><b>Question Type:</b></label>
+                    <select id="type">
+                        <option value="0">All Types</option>
+                        <option value="1">For Loop</option>
+                        <option value="2">While loop</option>
+                        <option value="3">Recursion</option>
+                    </select>
+                </div>  
+                <div>
+                    <label><b>Question Difficulty:</b></label>
+                    <select id="level">
+                        <option value="0">All Difficulty</option>
+                        <option value="1">Easy</option>
+                        <option value="2">Medium</option>
+                        <option value="3">Hard</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div>
+                    <h1>Question Bank</h1>
+                </div>
+                <form method="POST">
+                    <table>
+                        <tr>
+                            <th> Checkbox </th>
+                            <th> Description </th>
+                        </tr>
+                        <?php $questions = load_problems(); ?>
+                        <?php foreach($questions as $q): ?> 
+                        <tr name="<?php write($q['type'] . $q['level'])?>">
+                            <td> <input type="checkbox" name="q_id[]" value="<?php write($q['id']); ?>" > </td>
+                            <td>
+                            <p id="<?php write($q['id']); ?>"> 
+                                <b><u>Id:</u></b> <?php write($q['id']); ?> <br>
+                                <b><u>Title:</u></b> <?php write($q['title']); ?> <br>                                  
+                                <b><u>Description:</u></b> <?php write($q['description']); ?> <br>
+                                <b><u>Type:</u></b> <?php write(display_type($q['type'])); ?> <br>
+                                <b><u>Level:</u></b> <?php write(display_level($q['level'])); ?> <br>
+                            </p>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?> 
+                    </table>
+                    <div>
+                            <input type="submit" class="btn btn-primary" name="selection">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+<?php
+    if (isset($_POST["selection"])){ 
+        $list = get($_POST, "q_id", null);
+        if (empty($list)){
+            addFlash("Exams must have a question");
+        }else {
+            $_SESSION["questions"] = $list;
 
+        }
+    } 
+?>
 
+<?php if (isset($_POST["selection"]) && !empty($_SESSION["questions"]))  : ?>
+    <form method="POST">
+        <label> Title: </label>
+        <input type="text" name="title" placeholder="Exam title"> 
+        <label> Description: </label>
+        <textarea type="text" name="desc" placeholder="Question Description" rows="5"></textarea>
+
+        <table>
+        <tr>
+            <th> Description </th>
+            <th> Points worth </th>
+        </tr>
+            <?php $list = $_SESSION["questions"]; ?>
+            <?php $selected = getSelectedProblems($list); ?>
+            <?php foreach($selected as $s): ?>
+            <tr>
+            <td>
+                <p id="<?php write($s['id']); ?>"> 
+                    <b><u>Id:</u></b> <?php write($s['id']); ?> <br>                                             
+                    <b><u>Title:</u></b> <?php write($s['title']); ?> <br>                                             
+                    <b><u>Description:</u></b> <?php write($s['description']); ?> <br>                                             
+                </p>
+            </td>
+            <td> <input type="text" name="points[]" placeholder="Enter Points"> </td>
+            <?php endforeach; ?> 
+        </table>
+        <div>
+            <input id="submit" type="submit" class="btn btn-primary" name="submit">
+        </div>
+    </form>
+
+<?php endif; ?>
+<?php
+    if (isset($_POST["submit"])){
+        $title = get($_POST, "title", null);
+        $desc = get($_POST, "desc", null);
+        $points = get($_POST, "points", null);
+        $q_ids = get($_POST, "q_id", null);
+        $flag = true;
+
+        if (!isset($title) || empty($title)) {
+            addFlash("Exam must have a title", FLASH_WARN);
+            $flag = false;
+        }
+        if (!isset($desc) || empty($desc)) {
+            addFlash("Exam must have a description", FLASH_WARN);
+            $flag = false;
+
+        }
+        for ($i = 0; $i < count($points); $i++) {
+            if(empty($points[$i])) {
+                addFlash("Each question must have points assigned to it", FLASH_WARN);
+                $flag = false;
+                break;
+            }
+            if(!is_numeric($points[$i])) {
+                addFlash("Points must be an integer", FLASH_WARN);
+                $flag = false;
+                break;
+            }
+        }
+        if ($flag) {
+            addFlash("Exam created", FLASH_SUCC);
+            createExam($title, $desc, $points, $q_ids);
+        }
+    }
+?>
+
+<script>
+    $(document).ready(function() {
+        $("#type").change(function() {
+            let type = document.getElementById("type").value;
+            let level = document.getElementById("level").value;
+            let row = document.getElementsByTagName("tr");
+            let name = type + level;
+            for(var i = 1; i < row.length; i++) {        
+                console.log(row[i].getAttribute('name').charAt(0) + " = " + type + level + "   Type = " + type);
+                if (row[i].getAttribute('name').charAt(0) != type && type != 0) {
+                    row[i].style.display = "none";
+                }
+                else if (type == 0 && (row[i].getAttribute('name').charAt(1) == level || level == 0)){
+                    row[i].style.display = "table-row";
+                }
+                else if (row[i].getAttribute('name') == name) {
+                    row[i].style.display = "table-row";
+                }
+                else if (row[i].getAttribute('name').charAt(0) == type && level == 0) {
+                    row[i].style.display = "table-row";
+                }
+            }
+        })
+        $("#level").change(function() {
+            let level = document.getElementById("level").value;
+            let type = document.getElementById("type").value;
+            let row = document.getElementsByTagName("tr");
+            let name = type + level;
+            for(var i = 1; i < row.length; i++) {        
+                console.log(row[i].getAttribute('name') + " : " + type + level);
+                if (row[i].getAttribute('name').charAt(1) != level && level != 0) {
+                    row[i].style.display = "none";
+                }
+                else if (level == 0 && (row[i].getAttribute('name').charAt(0) == type || type == 0)){
+                    row[i].style.display = "table-row";
+                }
+                else if (row[i].getAttribute('name') == name) {
+                    row[i].style.display = "table-row";
+                }
+                else if (row[i].getAttribute('name').charAt(1) == level && type == 0) {
+                    row[i].style.display = "table-row";
+                }
+            }
+        })
+    });
+</script>
 
 <?php use_template('flash.php', true, true); ?>
 <?php use_template('footer.php', true, true); ?>
