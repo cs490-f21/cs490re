@@ -21,8 +21,73 @@ if (!user_admin_check()) {
     die(header("Location: home.php"));
 }
 ?>
+<?php if (isset($_POST["q_id"]))  : ?>
+    <form method="POST">
+        <label> Title: </label>
+        <input type="text" name="title" placeholder="Exam title"> 
+        <label> Description: </label>
+        <textarea type="text" name="desc" placeholder="Question Description" rows="5"></textarea>
 
-<?php if (!isset($_POST["selection"])) : ?>
+        <table>
+        <tr>
+            <th> Description </th>
+            <th> Points worth </th>
+        </tr>
+            <?php $list = $_POST["q_id"]; ?>
+            <?php $_SESSION["list"] = $list; ?>
+            <?php $selected = getSelectedProblems($list); ?>
+            <?php foreach($selected as $s): ?>
+            <tr>
+            <td>
+                <p id="<?php write($s['id']); ?>"> 
+                    <b><u>Id:</u></b> <?php write($s['id']); ?> <br>                                             
+                    <b><u>Title:</u></b> <?php write($s['title']); ?> <br>                                             
+                    <b><u>Description:</u></b> <?php write($s['description']); ?> <br>                                             
+                </p>
+            </td>
+            <td> <input type="text" name="points[]" placeholder="Enter Points"> </td>
+            <?php endforeach; ?> 
+        </table>
+        <div>
+            <input id="submit" type="submit" class="btn btn-primary" name="submit">
+        </div>
+    </form>
+
+<?php elseif (isset($_POST["submit"])) : ?>
+<?php
+    $title = get($_POST, "title", null);
+    $desc = get($_POST, "desc", null);
+    $points = get($_POST, "points", null);
+    $q_ids = $_SESSION["list"];
+    $flag = true;
+
+    if (!isset($title) || empty($title)) {
+        addFlash("Exam must have a title", FLASH_WARN);
+        $flag = false;
+    }
+    if (!isset($desc) || empty($desc)) {
+        addFlash("Exam must have a description", FLASH_WARN);
+        $flag = false;
+
+    }
+    for ($i = 0; $i < count($points); $i++) {
+        if(empty($points[$i])) {
+            addFlash("Each question must have points assigned to it", FLASH_WARN);
+            $flag = false;
+            break;
+        }
+        if(!is_numeric($points[$i])) {
+            addFlash("Points must be an integer", FLASH_WARN);
+            $flag = false;
+            break;
+        }
+    }
+    if ($flag) {
+        addFlash("Exam created", FLASH_SUCC);
+        createExam($title, $desc, $points, $q_ids);
+    }
+?>
+<?php else: ?>
     <div>
         <h1>Select questions to be on the exam</h1>
     </div>
@@ -82,86 +147,18 @@ if (!user_admin_check()) {
             </div>
         </div>
     </div>
-<?php endif; ?>
-<?php
+    <?php
     if (isset($_POST["selection"])){ 
         $list = get($_POST, "q_id", null);
         if (empty($list)){
             addFlash("Exams must have a question");
-        }else {
-            $_SESSION["questions"] = $list;
-
         }
     } 
-?>
-
-<?php if (isset($_POST["selection"]) && !empty($_SESSION["questions"]))  : ?>
-    <form method="POST">
-        <label> Title: </label>
-        <input type="text" name="title" placeholder="Exam title"> 
-        <label> Description: </label>
-        <textarea type="text" name="desc" placeholder="Question Description" rows="5"></textarea>
-
-        <table>
-        <tr>
-            <th> Description </th>
-            <th> Points worth </th>
-        </tr>
-            <?php $list = $_SESSION["questions"]; ?>
-            <?php $selected = getSelectedProblems($list); ?>
-            <?php foreach($selected as $s): ?>
-            <tr>
-            <td>
-                <p id="<?php write($s['id']); ?>"> 
-                    <b><u>Id:</u></b> <?php write($s['id']); ?> <br>                                             
-                    <b><u>Title:</u></b> <?php write($s['title']); ?> <br>                                             
-                    <b><u>Description:</u></b> <?php write($s['description']); ?> <br>                                             
-                </p>
-            </td>
-            <td> <input type="text" name="points[]" placeholder="Enter Points"> </td>
-            <?php endforeach; ?> 
-        </table>
-        <div>
-            <input id="submit" type="submit" class="btn btn-primary" name="submit">
-        </div>
-    </form>
-
+    ?>
 <?php endif; ?>
-<?php
-    if (isset($_POST["submit"])){
-        $title = get($_POST, "title", null);
-        $desc = get($_POST, "desc", null);
-        $points = get($_POST, "points", null);
-        $q_ids = get($_POST, "q_id", null);
-        $flag = true;
 
-        if (!isset($title) || empty($title)) {
-            addFlash("Exam must have a title", FLASH_WARN);
-            $flag = false;
-        }
-        if (!isset($desc) || empty($desc)) {
-            addFlash("Exam must have a description", FLASH_WARN);
-            $flag = false;
 
-        }
-        for ($i = 0; $i < count($points); $i++) {
-            if(empty($points[$i])) {
-                addFlash("Each question must have points assigned to it", FLASH_WARN);
-                $flag = false;
-                break;
-            }
-            if(!is_numeric($points[$i])) {
-                addFlash("Points must be an integer", FLASH_WARN);
-                $flag = false;
-                break;
-            }
-        }
-        if ($flag) {
-            addFlash("Exam created", FLASH_SUCC);
-            createExam($title, $desc, $points, $q_ids);
-        }
-    }
-?>
+
 
 <script>
     $(document).ready(function() {

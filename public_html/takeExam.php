@@ -17,13 +17,37 @@ if (user_login_check()) {
     user_reload();
 }
 
-if(isset($_POST["exam_id"])) {
-    $_SESSION["exam"] = $_POST["exam_id"];
-    header("Location: takeExam2.php");
-}
-
 ?>
 
+<?php if(isset($_POST["exam_id"])): ?>
+<form method="POST">
+    <?php 
+    if(!empty($_POST["exam_id"])) {
+        $questions = generateExam((int)$_POST["exam_id"]);
+        $q_order = 1;
+    }
+    ?>
+    <h1> Taking exam <?php echo getExamName($_POST["exam_id"]); ?>. Good luck!! </h1>
+    <?php foreach($questions as $q) : ?>
+    <div>
+        <?php echo $q_order . ") " . $q["description"]; $q_order++;?>
+    </div>
+    <div>
+        <label for="solutions[]">Write your code here:</label>
+        <textarea type="text" name="solutions[]" placeholder="Code Here" rows="15" cols="100"></textarea><br><br>
+    </div>
+    <?php endforeach; ?>
+    <div>
+        <input id="submit" type="submit" class="btn btn-primary" name="submit_exam">
+    </div>
+</form>
+
+<?php elseif(isset($_POST["submit_exam"])): ?>
+<?php
+    addFlash("Exam submitted", FLASH_SUCC);
+?>
+
+<?php else: ?>
 <form method="POST">
     <?php $exam_id = generateExamId(); ?>
     <?php 
@@ -44,6 +68,8 @@ if(isset($_POST["exam_id"])) {
         <input type="submit" class="btn btn-primary" name="submit">
     </div>
 </form>
+<?php endif; ?>
+
 
 <?php use_template('flash.php', true, true); ?>
 <?php use_template('footer.php', true, true); ?>
