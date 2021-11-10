@@ -89,9 +89,47 @@ if(isset($_POST["exam_id"]) && validate_number($_POST["exam_id"], 1, 2147483646)
             <?php else: ?>
                 No comments
             <?php endif; ?>
+            <br>
+            <label style="font-weight: bold;">Score Breakdown:</label><br/>
+            <table class="center">
+                <tr>
+                    <th>Test Case</th>
+                    <th>Autograded Score</th>
+                    <th>Manually Graded Score</th>
+                    <th>Comment</th>
+                    <th>Total Score</th>
+                </tr>
+                <tr>
+                    <td>Test Case 1</td>
+                    <td>Auto: 10</td>
+                    <td>Manual: 10</td>
+                    <td>No error</td>
+                    <td rowspan="3">40<td>
+                </tr>
+                <tr>
+                    <td>Test Case 2</td>
+                    <td>Auto: 10</td>
+                    <td>Manual: 10</td>
+                    <td>No error</td>
+                </tr>
+                <tr>
+                    <td>Test Case 3</td>
+                    <td>Auto: 10</td>
+                    <td>Manual: 15</td>
+                    <td>Wrong Name</td>
+                </tr>
+            </table>
+
         </div><br/><hr/>
+        
     <?php endforeach; ?>
 <?php endif; ?>
+
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+</style>
 
 <?php use_template('flash.php', true, true); ?>
 <?php use_template('footer.php', true, true); ?>
