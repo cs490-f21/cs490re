@@ -16,7 +16,6 @@ if (!user_login_check()) {
 if (user_login_check()) {
     user_reload();
 }
-
 ?>
 
 <?php if(isset($_POST["exam_id"])): ?>
@@ -27,10 +26,13 @@ if (user_login_check()) {
         $q_order = 1;
     }
     ?>
-    <h1> Taking exam <?php echo getExamName($_POST["exam_id"]); ?>. Good luck!! </h1>
+    <h1> Taking exam <?php write(getExamName($_POST["exam_id"])); ?>. Good luck!! </h1>
     <?php foreach($questions as $q) : ?>
     <div>
-        <?php echo $q_order . ") " . $q["description"]; $q_order++;?>
+        <?php 
+            write($q_order . ") [" . $q["point"] . " points] " . $q["description"]); 
+            $q_order++;
+        ?>
     </div>
     <div>
         <label for="solutions[]">Write your code here:</label>
@@ -61,7 +63,7 @@ if (user_login_check()) {
     <select id="exam" name="exam_id" ;>
         <option value="">Select ID here</option>
         <?php foreach($filtered as $filter) :?>
-            <option value="<?php echo $filter ?>"><?php echo $filter ?></option>
+            <option value="<?php write($filter) ?>"><?php write($filter) ?></option>
         <?php endforeach; ?>
     </select>
     <div>

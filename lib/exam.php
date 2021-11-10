@@ -53,7 +53,9 @@ function getExamName(int $id) {
 
 function generateExam(int $id) {
     $db = getDB();
-    $stmt = $db->query("SELECT id, title, description FROM Problems WHERE id in (SELECT with_problem FROM ExamParts WHERE $id=for_exam)");
+    $stmt = $db->query("SELECT p.id, p.title, p.description, ep.point
+                        FROM public.Problems p, public.ExamParts ep 
+                        WHERE p.id = ep.with_problem and $id=for_exam");
     return $stmt->fetchAll();
 }
 
