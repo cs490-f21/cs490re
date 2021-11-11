@@ -24,6 +24,7 @@ if (isset($_POST['submit'])) {
     $type = get($_POST, "type", null);
     $title = get($_POST, "title", null);
     $level = get($_POST, "level", null);
+    $const = get($_POST, "constraint", null);
     $desc = get($_POST, "desc", null);
     $cases = get($_POST, "cases", null);
 
@@ -43,6 +44,10 @@ if (isset($_POST['submit'])) {
         addFlash("Question must have a difficulty", FLASH_WARN);
         $flag = false;
     }
+    if (!isset($const) || empty($const)){
+        addFlash("Question must have a constraint", FLASH_WARN);
+        $flag = false;
+    }
     if (!isset($desc) || empty($desc)) {
         addFlash("Question must have a description", FLASH_WARN);
         $flag = false;
@@ -50,7 +55,7 @@ if (isset($_POST['submit'])) {
     $flag = validate_cases($sortedCases);
 
     if ($flag) {
-        create_problem($title, $type, $level, $desc, $sortedCases); 
+        create_problem($title, $type, $const, $level, $desc, $sortedCases); 
         addFlash("Question successfully created", FLASH_SUCC);
     }
 }
@@ -70,6 +75,15 @@ if (isset($_POST['submit'])) {
                <option value="">Select here</option>
                 <option value="1">For Loop</option>
                 <option value="2">While Loop</option>
+                <option value="3">Recursion</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="constraint">Question Constraint:</label>
+            <select name="constraint">         
+               <option value="">Select here</option>
+                <option value="1">For</option>
+                <option value="2">While</option>
                 <option value="3">Recursion</option>
             </select>
         </div>

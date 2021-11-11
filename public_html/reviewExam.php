@@ -76,7 +76,7 @@ if(isset($_POST["exam_id"]) && validate_number($_POST["exam_id"], 1, 2147483646)
     <?php foreach($results as $ques) : ?>
         <div>
             <label><span style="font-weight: bold;"><?php write($ques['part_order']) ?>.&nbsp</span><?php write($ques['title']) ?></label><br/>
-            <div><span style="font-weight: bold;">Your score: <?php write($ques['point']) ?> / <?php write($ques['possible']) ?></span></div><br/>
+            <div><span style="font-weight: bold;">Your score: <?php //write($ques['point']) ?> / <?php write($ques['possible']) ?></span></div><br/>
             <div><p style="font-family: "><?php write($ques['description']) ?></p></div><br/>
             <label style="font-weight: bold;">Your answer:</label><br/>
             <textarea type="text" readonly="true" rows="15" cols="100"><?php write($ques['answer']) ?></textarea><br/>
@@ -91,43 +91,60 @@ if(isset($_POST["exam_id"]) && validate_number($_POST["exam_id"], 1, 2147483646)
             <?php endif; ?>
             <br>
             <label style="font-weight: bold;">Score Breakdown:</label><br/>
-            <table class="center">
-                <tr>
-                    <th>Test Case</th>
-                    <th>Autograded Score</th>
-                    <th>Manually Graded Score</th>
-                    <th>Comment</th>
-                    <th>Total Score</th>
-                </tr>
-                <tr>
-                    <td>Test Case 1</td>
-                    <td>Auto: 10</td>
-                    <td>Manual: 10</td>
-                    <td>No error</td>
-                    <td rowspan="3">40<td>
-                </tr>
-                <tr>
-                    <td>Test Case 2</td>
-                    <td>Auto: 10</td>
-                    <td>Manual: 10</td>
-                    <td>No error</td>
-                </tr>
-                <tr>
-                    <td>Test Case 3</td>
-                    <td>Auto: 10</td>
-                    <td>Manual: 15</td>
-                    <td>Wrong Name</td>
-                </tr>
-            </table>
-
+            <div class="container" name="table">
+                <div class="row">
+                    <div class="col">Checking</div>
+                    <div class="col">Expected Output</div>
+                    <div class="col">Your Output</div>
+                    <div class="col">Autograded Score</div>
+                    <div class="col">Manually Graded Score</div>
+                </div>
+                <div class="row">
+                    <div class="col">Name</div>
+                    <div class="col">Expected Name</div>
+                    <div class="col">Your Name</div>
+                    <div class="col">Auto: 30</div>
+                    <div class="col">Manual: 20</div>
+                </div>
+                <div class="row">
+                    <div class="col">Constraint</div>
+                    <div class="col">Expected Constraint</div>
+                    <div class="col">N/A</div>
+                    <div class="col">Auto: 30</div>
+                    <div class="col">Manual: 30</div>
+                </div>
+                <div class="row">
+                    <div class="col">Test Case 1</div>
+                    <div class="col">Output</div>
+                    <div class="col">Your Output</div>
+                    <div class="col">Auto: 10</div>
+                    <div class="col">Manual: 10</div>
+                </div>
+                <div class="row">
+                    <div class="col">Test Case 2</div>
+                    <div class="col">Output</div>
+                    <div class="col">Your Output</div>
+                    <div class="col">Auto: 20</div>
+                    <div class="col">Manual: 20</div>
+                </div>
+                <div class="row">
+                    <div class="col">Test Case 3</div>
+                    <div class="col">Output</div>
+                    <div class="col">Your Output</div>
+                    <div class="col">Auto: 30</div>
+                    <div class="col">Manual: 30</div>
+                </div>
+                <div class="row justify-content-center">Total Score: 60</div>
+            </div>
         </div><br/><hr/>
         
     <?php endforeach; ?>
 <?php endif; ?>
 
 <style>
-table, th, td {
+div.row, div.col {
   border: 1px solid black;
+  text-align: center;
 }
 </style>
 

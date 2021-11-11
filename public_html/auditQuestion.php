@@ -101,7 +101,7 @@ Fail:;
 <?php else: ?>
     <form method="post" onsubmit="return validate(this);">
         <label><span style="font-weight: bold;"><?php write($question['part_order']) ?>.&nbsp</span><?php write($question['title']) ?></label><br/>
-        <div><span style="font-weight: bold;">Current score: <input type="number" name="sub_score" value="<?php write($question['point']) ?>" /> / <?php write($question['possible']) ?></span></div><br/>
+        <div><span style="font-weight: bold;">Current score: <input type="number" name="sub_score" value="<?php //write($question['point']) ?>" /> / <?php write($question['possible']) ?></span></div><br/>
         <div><p style="font-family: "><?php write($question['description']) ?></p></div><br/>
         <label style="font-weight: bold;">Submitted answer:</label><br/>
         <textarea type="text" readonly="true" name="sub_answer" rows="15" cols="100"><?php write($question['answer']) ?></textarea><br/>

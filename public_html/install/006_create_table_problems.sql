@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS Problems (
     from_professor INTEGER         DEFAULT NULL,
     level          INTEGER         NOT NULL,
     type           INTEGER         NOT NULL,
+    const          INTEGER         NOT NULL,
 
     FOREIGN KEY (from_professor) REFERENCES Users(id)
 );

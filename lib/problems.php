@@ -1,13 +1,13 @@
 <?php
 
-function create_problem(string $title, int $type, int $level, string $desc, array $cases) : Status {
+function create_problem(string $title, int $type, int $const, int $level, string $desc, array $cases) : Status {
     $db = getDB();
-    $stmt = $db->prepare("INSERT INTO Problems (title, type, level, description) 
-                            VALUES (:title, :type, :level, :desc)");
+    $stmt = $db->prepare("INSERT INTO Problems (title, type, const, level, description) 
+                            VALUES (:title, :type, :const, :level, :desc)");
 
     $message = '';
     try {
-        $stmt->execute(array(":title" => $title, ":type" => $type, ":level" => $level, ":desc" => $desc));
+        $stmt->execute(array(":title" => $title, ":type" => $type, ":const" => $const, ":level" => $level, ":desc" => $desc));
         $q_id = $db->query("SELECT MAX(id) from Problems")->fetch();
         $stmt = $db->prepare("INSERT INTO Testcases (for_problem, case_order, title, input, output, weight) 
             VALUES (:q_id, :order, :title, :case, :result, :weight)");

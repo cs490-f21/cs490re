@@ -184,8 +184,8 @@ function collect_result_submission(int $submission, array &$results) {
     $db = getDB();
     $stmtSub = $db->prepare(
         "SELECT s.id, s.from_student, u.username, 
-                ep.point as possible, s.point, 
-                s.answer, s.result1, s.result2, s.result3, s.created as answer_time,
+                ep.point as possible,
+                s.answer, s.created as answer_time,
                 ep.part_order, p.title, p.description, p.level, p.type
             FROM Submissions s
             JOIN ExamParts ep
@@ -214,8 +214,8 @@ function collect_result_user(int $exam, array &$results, int $user = -1) {
     $db = getDB();
     $stmtSub = $db->prepare(
         "SELECT s.id, s.from_student, u.username, 
-                ep.point as possible, s.point, 
-                s.answer, s.result1, s.result2, s.result3, s.created as answer_time,
+                ep.point as possible,
+                s.answer, s.created as answer_time,
                 ep.part_order, p.title, p.description, p.level, p.type
             FROM Submissions s
             JOIN ExamParts ep
@@ -237,8 +237,8 @@ function collect_result_all(int $exam, array &$results) {
     $db = getDB();
     $stmtSub = $db->prepare(
         "SELECT s.id, s.from_student, u.username, 
-                ep.point as possible, s.point, 
-                s.answer, s.result1, s.result2, s.result3, s.created as answer_time,
+                ep.point as possible,
+                s.answer, s.created as answer_time,
                 ep.part_order, p.title, p.description, p.level, p.type
             FROM Submissions s
             JOIN ExamParts ep

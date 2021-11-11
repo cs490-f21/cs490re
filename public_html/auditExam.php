@@ -99,7 +99,7 @@ if(isset($_POST["user_id"]) && validate_number($_POST["user_id"], 1, 2147483646)
             <label><span style="font-weight: bold;"><?php write($ques['part_order']) ?>.&nbsp</span><?php write($ques['title']) ?></label>
             <a class="btn btn-primary" href="auditQuestion.php?id=<?php write($ques['id']) ?>" target="_blank" role="button">Edit</a>
             <br/>
-            <div><span style="font-weight: bold;">Current score: <?php write($ques['point']) ?> / <?php write($ques['possible']) ?></span></div><br/>
+            <div><span style="font-weight: bold;">Current score: <?php //write($ques['point']) ?> / <?php write($ques['possible']) ?></span></div><br/>
             <div><p style="font-family: "><?php write($ques['description']) ?></p></div><br/>
             <label style="font-weight: bold;">Submitted answer:</label><br/>
             <textarea type="text" readonly="true" rows="15" cols="100"><?php write($ques['answer']) ?></textarea><br/>

@@ -95,7 +95,7 @@ if (!user_admin_check()) {
         <div class="row">
             <div class="col">
                 <h1>Filter By:</h1>
-                <div style:display="in-line">
+                <div style="display: inline;">
                     <label><b>Question Type:</b></label>
                     <select id="type">
                         <option value="0">All Types</option>
@@ -104,7 +104,7 @@ if (!user_admin_check()) {
                         <option value="3">Recursion</option>
                     </select>
                 </div>  
-                <div>
+                <div style="display: in-line;">
                     <label><b>Question Difficulty:</b></label>
                     <select id="level">
                         <option value="0">All Difficulty</option>
@@ -113,6 +113,10 @@ if (!user_admin_check()) {
                         <option value="3">Hard</option>
                     </select>
                 </div>
+                <div style="display: in-line;">
+                    <label><b>Keyword:</b></label>
+                    <input type="text" id="name">
+                </div>                
             </div>
             <div class="col">
                 <div>
@@ -157,14 +161,12 @@ if (!user_admin_check()) {
     ?>
 <?php endif; ?>
 
-
-
-
 <script>
     $(document).ready(function() {
         $("#type").change(function() {
             let type = document.getElementById("type").value;
             let level = document.getElementById("level").value;
+            let keyword = document.getElementById("name").value;
             let row = document.getElementsByTagName("tr");
             let name = type + level;
             for(var i = 1; i < row.length; i++) {        
@@ -186,6 +188,7 @@ if (!user_admin_check()) {
         $("#level").change(function() {
             let level = document.getElementById("level").value;
             let type = document.getElementById("type").value;
+            let name = document.getElementById("name").value;
             let row = document.getElementsByTagName("tr");
             let name = type + level;
             for(var i = 1; i < row.length; i++) {        
@@ -200,6 +203,28 @@ if (!user_admin_check()) {
                     row[i].style.display = "table-row";
                 }
                 else if (row[i].getAttribute('name').charAt(1) == level && type == 0) {
+                    row[i].style.display = "table-row";
+                }
+            }
+        })
+        $("#name").change(function() {
+            let type = document.getElementById("type").value;
+            let level = document.getElementById("level").value;
+            let row = document.getElementsByTagName("tr");
+            let type = document.getElementById("type").value;
+            let name = type + level;
+            for(var i = 1; i < row.length; i++) {        
+                console.log(row[i].getAttribute('name').charAt(0) + " = " + type + level + "   Type = " + type);
+                if (row[i].getAttribute('name').charAt(0) != type && type != 0) {
+                    row[i].style.display = "none";
+                }
+                else if (type == 0 && (row[i].getAttribute('name').charAt(1) == level || level == 0)){
+                    row[i].style.display = "table-row";
+                }
+                else if (row[i].getAttribute('name') == name) {
+                    row[i].style.display = "table-row";
+                }
+                else if (row[i].getAttribute('name').charAt(0) == type && level == 0) {
                     row[i].style.display = "table-row";
                 }
             }
