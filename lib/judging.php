@@ -45,7 +45,7 @@ function build_judgement(string $code, string $input, string $output): string {
 }
 
 // return false if name mismatch and fixed
-function fix_function_name(string &$code, string $testcase): bool {
+function fix_function_name(string &$code, string $testcase, string &$casename, string &$funcname): bool {
     $pattern = "/\s*([a-zA-Z0-9_]+)\s*\(/";
     $matches = [];
     if (!preg_match_all($pattern, $testcase, $matches)) return false;
@@ -62,4 +62,21 @@ function fix_function_name(string &$code, string $testcase): bool {
     }
 
     return true;
+}
+
+function check_function_constraint(string &$code, int $constraint, string $funcname): bool {
+    switch ($constraint) {
+        case 0:
+            return true;
+        case 1:
+            $pattern = "/\bfor\s*\(/";
+            return preg_match($pattern, $code) !== false;
+        case 2:
+            $pattern = "/\bwhile\s*\(/";
+            return preg_match($pattern, $code) !== false;
+        case 3:
+            $pattern = "/\b(" . $funcname . ")\s*\(/";
+            $count = preg_match($pattern, $code);
+            return ($count !== false) && ($count > 1);
+    }
 }
