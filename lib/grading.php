@@ -1,37 +1,35 @@
 <?php // author: Jiyuan Zhang
 
-function change_grade(int $submission, int | null $grade) {
+function change_grade(int $breakdown, int | null $grade) {
     $db = getDB();
     $stmtSub = $db->prepare(
-        "SELECT s.id, ep.point as possible
-            FROM Submissions s
-            JOIN ExamParts ep
-                ON ep.id = s.for_part
-            WHERE s.id = :sub"
+        "SELECT maxscore
+            FROM Breakdowns
+            WHERE id = :brk"
     );
 
     $stmtApply = $db->prepare(
-        "UPDATE Submissions SET point = :grade WHERE id = :id"
+        "UPDATE Breakdowns SET point = :grade WHERE id = :id"
     );
 
     $stmtClear = $db->prepare(
-        "UPDATE Submissions SET point = NULL WHERE id = :id"
+        "UPDATE Breakdowns SET point = NULL WHERE id = :id"
     );
 
     $message = 'GRD_UNKNOWN';
 
     try {
-        $stmtSub->execute([":sub" => $submission]);
+        $stmtSub->execute([":brk" => $breakdown]);
         $sub = $stmtSub->fetch(PDO::FETCH_ASSOC);
 
         if ($grade != null) {
-            $grade = min($grade, $sub['possible']);
+            $grade = min($grade, $sub['maxscore']);
             $grade = max($grade, 0);
 
-            $stmtApply->execute([":grade" => $grade, ":id" => $submission]);
+            $stmtApply->execute([":grade" => $grade, ":id" => $breakdown]);
         }
         else {
-            $stmtClear->execute([":id" => $submission]);
+            $stmtClear->execute([":id" => $breakdown]);
         }
 
         $message = 'GRD_SUCCESS';
@@ -45,16 +43,16 @@ function change_grade(int $submission, int | null $grade) {
 function autograde_exam(int $exam): Status {
     $db = getDB();
     $stmtSub = $db->prepare(
-        "SELECT s.id, s.answer, s.point, s.result1, s.result2, s.result3, s.from_student as student, ep.with_problem as problem, ep.for_exam as exam
+        "SELECT s.id, s.answer, s.from_student as student, ep.with_problem as problem, ep.for_exam as exam
             FROM Submissions s
             JOIN ExamParts ep
                 ON ep.id = s.for_part
-            WHERE s.point is NULL AND ep.for_exam = :exam
+            WHERE ep.for_exam = :exam
             ORDER BY ep.with_problem"
     );
 
     $stmtProb = $db->prepare(
-        "SELECT p.id, t.case_order as order, t.input, t.output, t.weight, ep.point
+        "SELECT p.id, t.case_order as order, t.input, t.output, t.weight, ep.point, p.const
             FROM ExamParts ep
             JOIN Problems p
                 ON ep.with_problem = p.id
@@ -73,16 +71,15 @@ function autograde_exam(int $exam): Status {
 function autograde_all(): Status {
     $db = getDB();
     $stmtSub = $db->prepare(
-        "SELECT s.id, s.answer, s.point, s.result1, s.result2, s.result3, s.from_student as student, ep.with_problem as problem, ep.for_exam as exam
+        "SELECT s.id, s.answer, s.from_student as student, ep.with_problem as problem, ep.for_exam as exam
             FROM Submissions s
             JOIN ExamParts ep
                 ON ep.id = s.for_part
-            WHERE s.point is NULL
             ORDER BY ep.with_problem"
     );
 
     $stmtProb = $db->prepare(
-        "SELECT p.id, t.case_order as order, t.input, t.output, t.weight, ep.point
+        "SELECT p.id, t.case_order as order, t.input, t.output, t.weight, ep.point, p.const
             FROM ExamParts ep
             JOIN Problems p
                 ON ep.with_problem = p.id
@@ -99,7 +96,11 @@ function autograde_all(): Status {
 
 function __autograde_core(object $db, object $stmtSub, array $argSub, object $stmtProb, array $argProb): Status {
     $stmtApply = $db->prepare(
-        "UPDATE Submissions SET point = :grade, result1 = :result1, result2 = :result2, result3 = :result3 WHERE id = :id"
+        "INSERT INTO Breakdowns (for_submission, subject, expected, result, maxscore, autoscore)
+            VALUES (:submission, :subject, :expected, :result, :maxscore, :autoscore)
+            ON CONFLICT ON CONSTRAINT breakdowns_for_submission_subject_key
+            DO UPDATE 
+            SET expected = EXCLUDED.expected, result = EXCLUDED.result, maxscore = EXCLUDED.maxscore, autoscore = EXCLUDED.autoscore"
     );
 
     $message = 'GRD_UNKNOWN';
@@ -115,45 +116,95 @@ function __autograde_core(object $db, object $stmtSub, array $argSub, object $st
             goto Fail;
         }
 
+        // dictionarilize, { problem_id: [total_weight, testcases...] }
         $problems = [];
         foreach($rawprob as $problem) {
-            if (isset($problems[$problem["id"]])) {
-                array_push($problems[$problem["id"]], $problem);
-                $problems[$problem["id"]][0] += $problem["weight"];
+            if (!isset($problems[$problem["id"]])) {
+                $problems[$problem["id"]] = [0];
             }
-            else {
-                $problems[$problem["id"]] = [$problem["weight"], $problem];
-            }
+
+            array_push($problems[$problem["id"]], $problem);
+            $problems[$problem["id"]][0] += $problem["weight"];
         }
 
+        // distribute total weights to testcases, { problem_id: [contract_weight, testcases...] }
         foreach($problems as $key => $testcases) {
-            $sum = array_shift($problems[$key]);
+            // +2: 1 for naming, 1 for constraint
+            $sum = array_shift($problems[$key]) + 2;
 
-            foreach($problems[$key] as $index => $testcase) {
-                $problems[$key][$index]["point"] *= 1.0 * $problems[$key][$index]["weight"] / $sum;
+            // adjust contract weights
+            $contract_weight = 0;
+            if (count($problems[$key]) > 0) {
+                $contract_weight = $problems[$key][0]["point"] * 1.0 / $sum;
             }
+
+            // adjust test case weights
+            foreach($problems[$key] as $index => $testcase) {
+                $problems[$key][$index]["point"] *= 1.0 * $testcase["weight"] / $sum;
+            }
+
+            // append to head
+            array_unshift($problems[$key], $contract_weight);
         }
 
+        // perform grading
+        $results = [];
         foreach ($submissions as $id => $submission) {
             $pid = $submission["problem"];
             if (!isset($problems[$pid])) continue;
 
+            // get testcases
             $testcases = $problems[$pid];
-            $submissions[$id]["point"] = 0;
+            // get contract weight
+            $contract_weight = array_shift($testcases);
 
+            // static checkers
+            if (count($testcases) > 0) {
+                // check and fix name
+                $code = $submission["answer"];
+                $casename = "";
+                $funcname = "";
+                $match = fix_function_name($code, $testcases[0]["input"], $casename, $funcname);
+                $submission["answer"] = $code;
+
+                array_push($results, [
+                    $submission["id"], // for_submission
+                    "Function Name", // subject
+                    $casename, // expected
+                    $funcname, // result
+                    $contract_weight, // maxscore
+                    $match ? $contract_weight : 0 // autoscore
+                ]);
+
+                // check constraint
+                $code = $submission["answer"];
+                $constraint = $testcases[0]["const"];
+                $match = check_function_constraint($code, $constraint, $casename);
+
+                array_push($results, [
+                    $submission["id"], // for_submission
+                    "Constraint", // subject
+                    $constraint, // expected
+                    $match ? "Fulfilled" : "Failed", // result
+                    $contract_weight, // maxscore
+                    $match ? $contract_weight : 0 // autoscore
+                ]);
+            }
+
+            // judge runners
             $i = 1;
             foreach($testcases as $testcase) {
                 $code = $submission["answer"];
-                $fixed = fix_function_name($code, $testcase["input"]);
                 $result = run_judgement($code, $testcase["input"], $testcase["output"]);
-                
-                if ($result[0]->isSuccess()) {
-                    $submissions[$id]["point"] += $testcase["point"] * ($fixed ? 1.0 : 0.8);
-                    $submissions[$id]["message" . $i] = $fixed ? "Passed: Success" : "Passed: Wrong Function Name";
-                }
-                else {
-                    $submissions[$id]["message" . $i] = $result[1];
-                }
+
+                array_push($results, [
+                    $submission["id"], // for_submission
+                    $testcase["input"], // subject
+                    $testcase["output"], // expected
+                    $result[0]->isSuccess() ? $testcase["output"] : $result[1], // result
+                    $testcase["point"], // maxscore
+                    $result[0]->isSuccess() ? $testcase["point"] : 0 // autoscore
+                ]);
 
                 $i++;
             }
@@ -161,12 +212,16 @@ function __autograde_core(object $db, object $stmtSub, array $argSub, object $st
 
         foreach($submissions as $submission) {
             updateExamStatus($submission["exam"], $submission["student"], 2);
+        }
+
+        foreach($results as $result) {
             $stmtApply->execute([
-                ":grade" => intval($submission["point"]), 
-                ":result1" => $submission["result1"], 
-                ":result2" => $submission["result2"], 
-                ":result3" => $submission["result3"], 
-                ":id" => $submission["id"]
+                ":submission" => $result[0], 
+                ":subject" => $result[1],
+                ":expected" => $result[2],
+                ":result" => $result[3],
+                ":maxscore" => intval($result[4]),
+                ":autoscore" => intval($result[5]),
             ]);
         }
 
@@ -259,10 +314,19 @@ function collect_result_all(int $exam, array &$results) {
 function __collect_result_core(object $db, object $stmtSub, array $argSub, array &$results): Status {
     $message = 'GRD_UNKNOWN';
     $results = [];
+    $stmtBrk = $db->prepare(
+        "SELECT * FROM Breakdowns
+            WHERE for_submission = :submission"
+    );
 
     try {
         $stmtSub->execute($argSub);
         $results = $stmtSub->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach($results as $key => $result) {
+            $stmtBrk->execute([":submission" => $result["id"]]);
+            $results[$key]["breakdowns"] = $stmtBrk->fetchAll(PDO::FETCH_ASSOC);
+        }
 
         $message = 'GRD_SUCCESS';
 

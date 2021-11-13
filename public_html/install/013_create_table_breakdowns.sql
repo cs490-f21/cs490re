@@ -4,12 +4,14 @@ CREATE TABLE IF NOT EXISTS Breakdowns (
     subject        VARCHAR(1024)   NOT NULL,
     expected       VARCHAR(4096)   NOT NULL,
     result         VARCHAR(4096)   NOT NULL,
+    maxscore       INTEGER         NOT NULL,
     autoscore      INTEGER         NOT NULL,
-    finalscore     INTEGER         NOT NULL,
+    finalscore     INTEGER         DEFAULT NULL,
     created        TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified       TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (for_submission) REFERENCES Submissions(id)
+    FOREIGN KEY (for_submission) REFERENCES Submissions(id),
+    UNIQUE (for_submission, subject)
 );
 --!!
 DROP TRIGGER IF EXISTS update_breakdowns_modified ON Breakdowns;
