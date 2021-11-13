@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS Breakdowns (
     expected       VARCHAR(4096)   NOT NULL,
     result         VARCHAR(4096)   NOT NULL,
     autoscore      INTEGER         NOT NULL,
-    finalscore     INTEGER         NOT NULL,
+    finalscore     INTEGER         DEFAULT NULL,
     created        TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified       TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
 

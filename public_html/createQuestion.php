@@ -44,10 +44,6 @@ if (isset($_POST['submit'])) {
         addFlash("Question must have a difficulty", FLASH_WARN);
         $flag = false;
     }
-    if (!isset($const) || empty($const)){
-        addFlash("Question must have a constraint", FLASH_WARN);
-        $flag = false;
-    }
     if (!isset($desc) || empty($desc)) {
         addFlash("Question must have a description", FLASH_WARN);
         $flag = false;
@@ -81,7 +77,7 @@ if (isset($_POST['submit'])) {
         <div class="mb-3">
             <label for="constraint">Question Constraint:</label>
             <select name="constraint">         
-               <option value="">Select here</option>
+               <option value="">No Constraint</option>
                 <option value="1">For</option>
                 <option value="2">While</option>
                 <option value="3">Recursion</option>

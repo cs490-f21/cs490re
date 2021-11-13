@@ -95,7 +95,11 @@ if (!user_admin_check()) {
         <div class="row">
             <div class="col">
                 <h1>Filter By:</h1>
-                <div style="display: inline;">
+                <input type="radio" id="td" name="filter"></input>
+                <label for="question">Type/Difficulty</label>
+                <input type="radio" id="word" name="filter"></input>
+                <label for="word">Keyword</label><br>
+                <div id="qtype" style="display: none;">
                     <label><b>Question Type:</b></label>
                     <select id="type">
                         <option value="0">All Types</option>
@@ -104,7 +108,7 @@ if (!user_admin_check()) {
                         <option value="3">Recursion</option>
                     </select>
                 </div>  
-                <div style="display: in-line;">
+                <div id="difficulty" style="display: none;">
                     <label><b>Question Difficulty:</b></label>
                     <select id="level">
                         <option value="0">All Difficulty</option>
@@ -113,9 +117,9 @@ if (!user_admin_check()) {
                         <option value="3">Hard</option>
                     </select>
                 </div>
-                <div style="display: in-line;">
+                <div id="kword" style="display: none;">
                     <label><b>Keyword:</b></label>
-                    <input type="text" id="name">
+                    <input type="text" id="keyword"></input>
                 </div>                
             </div>
             <div class="col">
@@ -166,7 +170,6 @@ if (!user_admin_check()) {
         $("#type").change(function() {
             let type = document.getElementById("type").value;
             let level = document.getElementById("level").value;
-            let keyword = document.getElementById("name").value;
             let row = document.getElementsByTagName("tr");
             let name = type + level;
             for(var i = 1; i < row.length; i++) {        
@@ -188,11 +191,9 @@ if (!user_admin_check()) {
         $("#level").change(function() {
             let level = document.getElementById("level").value;
             let type = document.getElementById("type").value;
-            let name = document.getElementById("name").value;
             let row = document.getElementsByTagName("tr");
             let name = type + level;
             for(var i = 1; i < row.length; i++) {        
-                console.log(row[i].getAttribute('name') + " : " + type + level);
                 if (row[i].getAttribute('name').charAt(1) != level && level != 0) {
                     row[i].style.display = "none";
                 }
@@ -207,29 +208,53 @@ if (!user_admin_check()) {
                 }
             }
         })
-        $("#name").change(function() {
-            let type = document.getElementById("type").value;
-            let level = document.getElementById("level").value;
+        $("#keyword").change(function() {
             let row = document.getElementsByTagName("tr");
-            let type = document.getElementById("type").value;
-            let name = type + level;
+            let keyword = document.querySelector('#keyword').value;
+            keyword = keyword.toLowerCase();
             for(var i = 1; i < row.length; i++) {        
-                console.log(row[i].getAttribute('name').charAt(0) + " = " + type + level + "   Type = " + type);
-                if (row[i].getAttribute('name').charAt(0) != type && type != 0) {
+                var desc = row[i].textContent.match(/(?<=Description: ).*/);
+                desc = desc[0].toLowerCase();
+                if(desc.includes(keyword)) {
+                    row[i].style.display = "table-row";
+                }
+                else {
                     row[i].style.display = "none";
-                }
-                else if (type == 0 && (row[i].getAttribute('name').charAt(1) == level || level == 0)){
-                    row[i].style.display = "table-row";
-                }
-                else if (row[i].getAttribute('name') == name) {
-                    row[i].style.display = "table-row";
-                }
-                else if (row[i].getAttribute('name').charAt(0) == type && level == 0) {
-                    row[i].style.display = "table-row";
                 }
             }
         })
+        $("#td").change(function() {
+            if(document.getElementById('td').checked) {
+                document.getElementById('kword').style.display = "none";
+                document.getElementById('qtype').style.display = "block";
+                document.getElementById('difficulty').style.display = "block";
+                document.querySelector('#keyword').value = "";
+            }
+            else {
+                document.getElementById('kword').style.display = "block";
+                document.getElementById('qtype').style.display = "none";
+                document.getElementById('difficulty').style.display = "none";
+            }
+        })
+        $("#word").change(function() {
+            if(document.getElementById('word').checked) {
+                document.getElementById('qtype').style.display = "none";
+                document.getElementById('difficulty').style.display = "none";
+                document.getElementById('kword').style.display = "block";
+                document.getElementById("type").value = 0;
+                document.getElementById("level").value = 0;
+                document.getElementsByTagName("tr").style.display = "table-row";
+            }
+            else {
+                document.getElementById('qtype').style.display = "block";
+                document.getElementById('difficulty').style.display = "block";
+                document.getElementById('kword').style.display = "none";
+
+            }
+        })
     });
+
+
 </script>
 
 <?php use_template('flash.php', true, true); ?>
