@@ -18,6 +18,6 @@ import types
 {{user_function}}
 
 result = {{user_input}}
-print("Output: " + str(result))
+print(str(result))
 if result == {{user_output}}:
     print("[judgerunner] passed 02c7e4f2-f04e-49a8-a99f-3c02c8aa4e64")

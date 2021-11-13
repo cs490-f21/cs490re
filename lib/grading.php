@@ -9,11 +9,11 @@ function change_grade(int $breakdown, int | null $grade) {
     );
 
     $stmtApply = $db->prepare(
-        "UPDATE Breakdowns SET point = :grade WHERE id = :id"
+        "UPDATE Breakdowns SET manualscore = :grade WHERE id = :id"
     );
 
     $stmtClear = $db->prepare(
-        "UPDATE Breakdowns SET point = NULL WHERE id = :id"
+        "UPDATE Breakdowns SET manualscore = NULL WHERE id = :id"
     );
 
     $message = 'GRD_UNKNOWN';
