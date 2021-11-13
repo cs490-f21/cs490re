@@ -315,7 +315,7 @@ function __collect_result_core(object $db, object $stmtSub, array $argSub, array
     $message = 'GRD_UNKNOWN';
     $results = [];
     $stmtBrk = $db->prepare(
-        "SELECT * FROM Breakdowns
+        "SELECT *, COALESCE(manualscore, autoscore, maxscore) as finalscore FROM Breakdowns
             WHERE for_submission = :submission"
     );
 
