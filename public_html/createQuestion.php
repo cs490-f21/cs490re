@@ -56,8 +56,6 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
-
-
 <div>
     <h1> Add Your Question To The Question Bank</h1>
     <form class="input-form" method="POST"> 

@@ -6,11 +6,7 @@ CREATE TABLE IF NOT EXISTS Breakdowns (
     result         VARCHAR(4096)   NOT NULL,
     maxscore       INTEGER         NOT NULL,
     autoscore      INTEGER         NOT NULL,
-<<<<<<< HEAD
-    finalscore     INTEGER         DEFAULT NULL,
-=======
     manualscore    INTEGER         DEFAULT NULL,
->>>>>>> e70bd156dee88d0c3beb89d97a4ff040516fc013
     created        TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modified       TIMESTAMP       NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
