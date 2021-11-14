@@ -149,17 +149,17 @@ if(isset($_POST["exam_id"]) && validate_number($_POST["exam_id"], 1, 2147483646)
                     </div>
                 </div>
                 <div class="row justify-content-center"><b> Your Current Score: 
-                <?php
-                    $max_score = 0;
-                    $your_score = 0;
-                    for($i = 0; $i < count($ques['breakdowns']); $i++) {
-                        $max_score += $ques['breakdowns'][$i]['maxscore'];
-                        ($ques['breakdowns'][$i]["manualscore"] == null) ? 
-                            $your_score += $ques['breakdowns'][$i]["autoscore"] : $your_score += $ques['breakdowns'][$i]["manualscore"];
-                    }
-                    write($your_score.'/'.$max_score);
-                ?> </b> 
-                </div>
+                    <?php
+                        $max_score = 0;
+                        $your_score = 0;
+                        for($i = 0; $i < count($ques['breakdowns']); $i++) {
+                            $max_score += $ques['breakdowns'][$i]['maxscore'];
+                            ($ques['breakdowns'][$i]["manualscore"] == null) ? 
+                                $your_score += $ques['breakdowns'][$i]["autoscore"] : $your_score += $ques['breakdowns'][$i]["manualscore"];
+                        }
+                        write($your_score.'/'.$max_score);
+                    ?> 
+                </div> </b>
             </div><br>
             <label style="font-weight: bold;">Comments:</label><br/>
             <?php if (count($ques['comments']) > 0): ?>
