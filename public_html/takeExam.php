@@ -2,8 +2,6 @@
 
 <?php use_template('header.php', true, true); ?>
 
-<title>Select exam</title>
-
 <?php use_template('resource.php', true, true); ?>
 <?php use_template('nav.php', true, true); ?>
 
@@ -19,6 +17,8 @@ if (user_login_check()) {
 ?>
 
 <?php if(isset($_POST["exam_id"])): ?>
+<title>Exam in Progress</title>
+
 <form method="POST">
     <?php 
     if(!empty($_POST["exam_id"])) {
@@ -33,14 +33,14 @@ if (user_login_check()) {
             write($q_order . ") [" . $q["point"] . " points] " . $q["description"]); 
             $q_order++;
         ?>
-    </div>
+    </div><br>
     <div>
-        <label for="solutions[]">Write your code here:</label>
+        <label style="font-weight: bold" for="solutions[]">Write your code here:</label><br>
         <textarea type="text" name="solutions[]" placeholder="Code Here" rows="15" cols="100"></textarea><br><br>
-    </div>
+    </div><hr/>
     <?php endforeach; ?>
     <div>
-        <input id="submit" type="submit" class="btn btn-primary" name="submit_exam">
+        <input id="submit" type="submit" class="btn btn-primary" name="submit_exam" value="Submit Exam"> 
     </div>
 </form>
 
@@ -50,7 +50,9 @@ if (user_login_check()) {
 ?>
 
 <?php else: ?>
-<form method="POST">
+<title>Select exam</title>
+<h1>Select the appropriate exam id provided.</h1>
+<form method="POST" class="center-form">
     <?php $exam_id = generateExamId(); ?>
     <?php 
     $ids = [];
@@ -59,13 +61,15 @@ if (user_login_check()) {
     }    
     $filtered = filterExams(user_get_id(), $ids); 
     ?>
-    <h1>Please select the appropriate exam id provided.</h1>
-    <select id="exam" name="exam_id" ;>
-        <option value="">Select ID here</option>
-        <?php foreach($filtered as $filter) :?>
-            <option value="<?php write($filter) ?>"><?php write($filter) ?></option>
-        <?php endforeach; ?>
-    </select>
+    <div class="mb-3">
+        <label for="exam">Select an Exam ID:</label><br>
+        <select class="form-select" id="exam" name="exam_id">
+            <option value="">Select here</option>
+            <?php foreach($filtered as $filter) :?>
+                <option value="<?php write($filter) ?>"><?php write($filter) ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
     <div>
         <input type="submit" class="btn btn-primary" name="submit">
     </div>

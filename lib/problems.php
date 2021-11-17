@@ -68,6 +68,15 @@ function display_type(int $num): string {
     if($num == 3) {
         return "Recursion";
     }
+    if($num == 4) {
+        return "Conditional";
+    }
+    if($num == 5) {
+        return "Strings";
+    }
+    if($num == 6) {
+        return "Lists";
+    }
 }
 
 function display_level(int $num): string {

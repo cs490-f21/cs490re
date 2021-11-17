@@ -178,8 +178,10 @@ if(isset($_POST["exam_id"]) && validate_number($_POST["exam_id"], 1, 2147483646)
 
 <style>
 div.row, div.col {
-  border: 1px solid black;
-  text-align: center;
+    border: thin solid lightgrey; 
+    border-radius: 10px;
+    border-collapse: separate; 
+    text-align: center;
 }
 </style>
 

@@ -70,6 +70,10 @@ if (isset($_POST['submit'])) {
                 <option value="1">For Loop</option>
                 <option value="2">While Loop</option>
                 <option value="3">Recursion</option>
+                <option value="4">Conditional</option>
+                <option value="5">Strings</option>
+                <option value="6">Lists</option>
+
             </select>
         </div>
         <div class="mb-3">

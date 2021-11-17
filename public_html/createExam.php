@@ -22,34 +22,39 @@ if (!user_admin_check()) {
 }
 ?>
 <?php if (isset($_POST["q_id"]))  : ?>
-    <form method="POST">
-        <label> Title: </label>
-        <input type="text" name="title" placeholder="Exam title"> 
-        <label> Description: </label>
-        <textarea type="text" name="desc" placeholder="Question Description" rows="5"></textarea>
-
-        <table>
-        <tr>
-            <th> Description </th>
-            <th> Points worth </th>
-        </tr>
-            <?php $list = $_POST["q_id"]; ?>
-            <?php $_SESSION["list"] = $list; ?>
-            <?php $selected = getSelectedProblems($list); ?>
-            <?php foreach($selected as $s): ?>
+    <h1>Assign Title And Points To Questions</h1>
+    <form method="POST" class="form-control">
+        <div class="mb-3">
+            <label> Title: </label>
+            <input type="text" name="title" class="form-control" placeholder="Exam title"> 
+        </div>
+        <div class="mb-3">
+            <label> Description: </label>
+            <textarea type="text" name="desc" class="form-control" placeholder="Question Description" rows="5"></textarea>
+        </div>
+        <table> 
             <tr>
-            <td>
-                <p id="<?php write($s['id']); ?>"> 
-                    <b><u>Id:</u></b> <?php write($s['id']); ?> <br>                                             
-                    <b><u>Title:</u></b> <?php write($s['title']); ?> <br>                                             
-                    <b><u>Description:</u></b> <?php write($s['description']); ?> <br>                                             
-                </p>
-            </td>
-            <td> <input type="text" name="points[]" placeholder="Enter Points"> </td>
-            <?php endforeach; ?> 
+                <th> Selected Questions </th>
+                <th> Points </th>
+            </tr>
+                <?php $list = $_POST["q_id"]; ?>
+                <?php $_SESSION["list"] = $list; ?>
+                <?php $selected = getSelectedProblems($list); ?>
+                <?php foreach($selected as $s): ?>
+                <tr>
+                <td>
+                    <p id="<?php write($s['id']); ?>"> 
+                        <b><u>Id:</u></b> <?php write($s['id']); ?> <br>                                             
+                        <b><u>Title:</u></b> <?php write($s['title']); ?> <br>                                             
+                        <b><u>Description:</u></b> <?php write($s['description']); ?> <br>                                             
+                    </p>
+                </td>
+                <td> <input type="text" name="points[]" placeholder="Enter Points"> </td>
+                <?php endforeach; ?> 
         </table>
+        <br>
         <div>
-            <input id="submit" type="submit" class="btn btn-primary" name="submit">
+            <input id="submit" type="submit" class="btn btn-primary" name="submit" value="Create Exam">
         </div>
     </form>
 
@@ -93,12 +98,16 @@ if (!user_admin_check()) {
     </div>
     <div class="container">
         <div class="row">
-            <div class="col">
+            <div class="col" style="text-align: center">
                 <h1>Filter By:</h1>
-                <input type="radio" id="td" name="filter"></input>
-                <label for="question">Type/Difficulty</label>
-                <input type="radio" id="word" name="filter"></input>
-                <label for="word">Keyword</label><br>
+                <div class="mb-3">
+                    <input type="radio" id="td" name="filter"></input>
+                    <label for="question">Type/Difficulty</label>
+                </div>
+                <div class="mb-3">
+                    <input type="radio" id="word" name="filter"></input>
+                    <label for="word">Keyword</label><br>
+                </div>
                 <div id="qtype" style="display: none;">
                     <label><b>Question Type:</b></label>
                     <select id="type">
@@ -135,7 +144,9 @@ if (!user_admin_check()) {
                         <?php $questions = load_problems(); ?>
                         <?php foreach($questions as $q): ?> 
                         <tr name="<?php write($q['type'] . $q['level'])?>">
-                            <td> <input type="checkbox" name="q_id[]" value="<?php write($q['id']); ?>" > </td>
+                            <td style="text-align:center"> 
+                                <input type="checkbox" name="q_id[]" value="<?php write($q['id']); ?>" > 
+                            </td>
                             <td>
                             <p id="<?php write($q['id']); ?>"> 
                                 <b><u>Id:</u></b> <?php write($q['id']); ?> <br>
@@ -148,8 +159,9 @@ if (!user_admin_check()) {
                         </tr>
                         <?php endforeach; ?> 
                     </table>
+                    <br>
                     <div>
-                            <input type="submit" class="btn btn-primary" name="selection">
+                            <input type="submit" class="btn btn-primary" name="selection" value="Confirm Selection">
                     </div>
                 </form>
             </div>
@@ -253,9 +265,14 @@ if (!user_admin_check()) {
             }
         })
     });
-
-
 </script>
+<style>
+table, th, td{
+    border: thin solid lightgrey;
+    border-radius: 10px;
+    border-collapse: separate;
+}
+</style>
 
 <?php use_template('flash.php', true, true); ?>
 <?php use_template('footer.php', true, true); ?>
