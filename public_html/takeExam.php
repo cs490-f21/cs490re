@@ -25,6 +25,7 @@ if (user_login_check()) {
         $questions = generateExam((int)$_POST["exam_id"]);
         $q_order = 1;
     }
+    $_SESSION["exam_id"] = (int)$_POST["exam_id"];
     ?>
     <h1> Taking exam <?php write(getExamName($_POST["exam_id"])); ?>. Good luck!! </h1>
     <?php foreach($questions as $q) : ?>
@@ -46,12 +47,22 @@ if (user_login_check()) {
 
 <?php elseif(isset($_POST["submit_exam"])): ?>
 <?php
+    $user_id = user_get_id();
+    $solutions = get($_POST, "solutions", null);
+    $parts = getExamPartDetails($_SESSION["exam_id"]);
+    $part_id = [];
+
+    foreach($parts as $p){
+        array_push($part_id, $p['id']);
+    }
+
+    submitExam($part_id, $user_id, $solutions);
     addFlash("Exam submitted", FLASH_SUCC);
 ?>
 
 <?php else: ?>
 <title>Select exam</title>
-<h1>Select the appropriate exam id provided.</h1>
+<h1>Select the appropriate exam name provided.</h1>
 <form method="POST" class="center-form">
     <?php $exam_id = generateExamId(); ?>
     <?php 
@@ -62,11 +73,11 @@ if (user_login_check()) {
     $filtered = filterExams(user_get_id(), $ids); 
     ?>
     <div class="mb-3">
-        <label for="exam">Select an Exam ID:</label><br>
+        <label for="exam">Select an Exam:</label><br>
         <select class="form-select" id="exam" name="exam_id">
             <option value="">Select here</option>
             <?php foreach($filtered as $filter) :?>
-                <option value="<?php write($filter) ?>"><?php write($filter) ?></option>
+                <option value="<?php write($filter) ?>"><?php write(getExamName($filter)) ?></option>
             <?php endforeach; ?>
         </select>
     </div>

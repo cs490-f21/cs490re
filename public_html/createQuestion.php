@@ -79,7 +79,7 @@ if (isset($_POST['submit'])) {
         <div class="mb-3">
             <label for="constraint">Question Constraint:</label>
             <select name="constraint">         
-               <option value="">No Constraint</option>
+               <option value="0">No Constraint</option>
                 <option value="1">For</option>
                 <option value="2">While</option>
                 <option value="3">Recursion</option>
