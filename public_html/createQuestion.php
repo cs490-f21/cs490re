@@ -28,7 +28,7 @@ if (isset($_POST['submit'])) {
     $desc = get($_POST, "desc", null);
     $cases = get($_POST, "cases", null);
 
-    $sortedCases = array(array($cases[0], $cases[1]), array($cases[2], $cases[3]),array($cases[4], $cases[5]));  
+    $sortedCases = array(array($cases[0], $cases[1]), array($cases[2], $cases[3]),array($cases[4], $cases[5]),array($cases[6], $cases[7]),array($cases[8], $cases[9]));  
 
     $flag = true;
 
@@ -122,6 +122,28 @@ if (isset($_POST['submit'])) {
         </div>
         <div class="mb-3">
             <label for="cases[]">Test Case 3 Expected Output:</label>
+            <input type="text" name="cases[]" placeholder="Output for Test Case 3">
+        </div>
+        <div>
+            <input type="submit" class="btn btn-primary" name="submit">
+        </div>
+        <div class="mb-3">
+            <label for="cases[]">Test Case 4:</label>
+            <input type="text" name="cases[]" placeholder="Test Case 3">
+        </div>
+        <div class="mb-3">
+            <label for="cases[]">Test Case 4 Expected Output:</label>
+            <input type="text" name="cases[]" placeholder="Output for Test Case 3">
+        </div>
+        <div>
+            <input type="submit" class="btn btn-primary" name="submit">
+        </div>
+        <div class="mb-3">
+            <label for="cases[]">Test Case 5:</label>
+            <input type="text" name="cases[]" placeholder="Test Case 3">
+        </div>
+        <div class="mb-3">
+            <label for="cases[]">Test Case 5 Expected Output:</label>
             <input type="text" name="cases[]" placeholder="Output for Test Case 3">
         </div>
         <div>
