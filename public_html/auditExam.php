@@ -115,12 +115,12 @@ if(isset($_POST["user_id"]) && validate_number($_POST["user_id"], 1, 2147483646)
                     <div class="col">Autograded Score</div>
                     <div class="col">Manually Graded Score</div>
                 </div>
-                <?php for ($j = 0; $j < count($question['breakdowns']); $j++): ?>
+                <?php for ($j = 0; $j < count($ques['breakdowns']); $j++): ?>
                     <div class="row">
-                        <div class="col"><?php write($question['breakdowns'][$j]["subject"]); ?></div>
-                        <div class="col"><?php write($question['breakdowns'][$j]["expected"]); ?></div>
-                        <div class="col"><?php write($question['breakdowns'][$j]["result"]); ?></div>
-                        <div class="col"><?php write($question['breakdowns'][$j]["autoscore"].'/'.$question['breakdowns'][$j]["maxscore"]); ?></div>
+                        <div class="col"><?php write($ques['breakdowns'][$j]["subject"]); ?></div>
+                        <div class="col"><?php write($ques['breakdowns'][$j]["expected"]); ?></div>
+                        <div class="col"><?php write($ques['breakdowns'][$j]["result"]); ?></div>
+                        <div class="col"><?php write($ques['breakdowns'][$j]["autoscore"].'/'.$ques['breakdowns'][$j]["maxscore"]); ?></div>
                         <div class="col">
                             <?php 
                                 ($ques['breakdowns'][$j]["manualscore"] === null) ? 
@@ -135,7 +135,7 @@ if(isset($_POST["user_id"]) && validate_number($_POST["user_id"], 1, 2147483646)
                         $your_score = 0;
                         for($i = 0; $i < count($ques['breakdowns']); $i++) {
                             $max_score += $ques['breakdowns'][$i]['maxscore'];
-                            ($ques['breakdowns'][$i]["manualscore"] == null) ? 
+                            ($ques['breakdowns'][$i]["manualscore"] === null) ? 
                                 $your_score += $ques['breakdowns'][$i]["autoscore"] : $your_score += $ques['breakdowns'][$i]["manualscore"];
                         }
                         write($your_score.'/'.$max_score);

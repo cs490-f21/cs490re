@@ -194,6 +194,8 @@ function __autograde_core(object $db, object $stmtSub, array $argSub, object $st
             // judge runners
             $i = 1;
             foreach($testcases as $testcase) {
+                if ($testcase["input"] == null) continue;
+
                 $code = $submission["answer"];
                 $result = run_judgement($code, $testcase["input"], $testcase["output"]);
 

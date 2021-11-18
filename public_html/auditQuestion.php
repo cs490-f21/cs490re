@@ -136,7 +136,7 @@ Fail:;
                     $your_score = 0;
                     for($i = 0; $i < count($question['breakdowns']); $i++) {
                         $max_score += $question['breakdowns'][$i]['maxscore'];
-                        ($question['breakdowns'][$i]["manualscore"] == null) ? 
+                        ($question['breakdowns'][$i]["manualscore"] === null) ? 
                             $your_score += $question['breakdowns'][$i]["autoscore"] : $your_score += $question['breakdowns'][$i]["manualscore"];
                     }
                     write($your_score.'/'.$max_score);

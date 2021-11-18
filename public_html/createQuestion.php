@@ -126,19 +126,19 @@ if (isset($_POST['submit'])) {
         </div>
         <div class="mb-3">
             <label for="cases[]">Test Case 4:</label>
-            <input type="text" name="cases[]" placeholder="Test Case 3">
+            <input type="text" name="cases[]" placeholder="Test Case 4">
         </div>
         <div class="mb-3">
             <label for="cases[]">Test Case 4 Expected Output:</label>
-            <input type="text" name="cases[]" placeholder="Output for Test Case 3">
+            <input type="text" name="cases[]" placeholder="Output for Test Case 4">
         </div>
         <div class="mb-3">
             <label for="cases[]">Test Case 5:</label>
-            <input type="text" name="cases[]" placeholder="Test Case 3">
+            <input type="text" name="cases[]" placeholder="Test Case 5">
         </div>
         <div class="mb-3">
             <label for="cases[]">Test Case 5 Expected Output:</label>
-            <input type="text" name="cases[]" placeholder="Output for Test Case 3">
+            <input type="text" name="cases[]" placeholder="Output for Test Case 5">
         </div>
         <div>
             <input type="submit" class="btn btn-primary" name="submit">
