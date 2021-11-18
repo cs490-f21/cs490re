@@ -44,10 +44,6 @@ if (isset($_POST['sub_present']) && $_POST['sub_present'] == "1") {
     if(!isset($_POST["sub_id"]) || !validate_number($_POST["sub_id"], 1, 2147483646)) {
         $valid = false;
     }
-    
-    if(!isset($_POST["sub_score"]) || !validate_number($_POST["sub_score"], 0, 2147483646)) {
-        $valid = false;
-    }
 
     if(!isset($_POST["sub_answer"]) || !validate_string($_POST["sub_answer"], 4096)) {
         $valid = false;
@@ -58,15 +54,10 @@ if (isset($_POST['sub_present']) && $_POST['sub_present'] == "1") {
     }
 
     $sub_id = intval($_POST["sub_id"]);
-    $sub_score = intval($_POST["sub_score"]);
     $sub_answer = $_POST["sub_answer"];
     $sub_comment = $_POST["sub_comment"];
 
     if ($sub_id !== $selected_question) {
-        $valid = false;
-    }
-
-    if ($sub_score > $question['possible']) {
         $valid = false;
     }
 

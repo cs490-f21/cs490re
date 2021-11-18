@@ -185,8 +185,8 @@ if(isset($_POST["user_id"]) && validate_number($_POST["user_id"], 1, 2147483646)
                                 $your_score += $ques['breakdowns'][$i]["autoscore"] : $your_score += $ques['breakdowns'][$i]["manualscore"];
                         }
                         write($your_score.'/'.$max_score);
-                    ?> 
-                </div></b>
+                    ?> </b>
+                </div>
             </div><br>
             <label style="font-weight: bold;">Comments:</label><br/>
             <?php if (count($ques['comments']) > 0): ?>
