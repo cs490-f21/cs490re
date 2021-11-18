@@ -184,7 +184,7 @@ function __autograde_core(object $db, object $stmtSub, array $argSub, object $st
                 array_push($results, [
                     $submission["id"], // for_submission
                     "Constraint", // subject
-                    $constraint, // expected
+                    describe_constraint($constraint), // expected
                     $match ? "Fulfilled" : "Failed", // result
                     $contract_weight, // maxscore
                     $match ? $contract_weight : 0 // autoscore

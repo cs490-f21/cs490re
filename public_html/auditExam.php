@@ -94,16 +94,20 @@ if(isset($_POST["user_id"]) && validate_number($_POST["user_id"], 1, 2147483646)
     Fail:;
     ?>
 
+    <div class="wide-form">
     <?php foreach($results as $ques) : ?>
         <div>
-            <label><span style="font-weight: bold;"><?php write($ques['part_order']) ?>.&nbsp</span><?php write($ques['title']) ?></label>
-            <a class="btn btn-primary" href="auditQuestion.php?id=<?php write($ques['id']) ?>" target="_blank" role="button">Edit</a>
-            <br/>
-            <div><p style="font-family: "><?php write($ques['description']) ?></p></div><br/>
+            <div class="exam-desc">
+                <label><span style="font-weight: bold;"><?php write($ques['part_order']) ?>.&nbsp</span><?php write($ques['title']) ?></label>
+                <a class="btn btn-primary" href="auditQuestion.php?id=<?php write($ques['id']) ?>" target="_blank" role="button">Edit</a><br/>
+                <div><p style="font-family: "><?php write($ques['description']) ?></p></div>
+            </div>
+            
+            <br/>            
             <label style="font-weight: bold;">Submitted answer:</label><br/>
-            <textarea type="text" readonly="true" rows="15" cols="100"><?php write($ques['answer']) ?></textarea><br/><br>
+            <textarea type="text" readonly="true" rows="15" cols="100" class="exam-input" spellcheck="false"><?php write($ques['answer']) ?></textarea><br/><br>
             <label style="font-weight: bold;">Score Breakdown:</label><br/>
-            <div class="container" name="table">
+            <div class="container score-table" name="table">
                 <div class="row">
                     <div class="col">Checking</div>
                     <div class="col">Expected Output</div>
@@ -187,25 +191,19 @@ if(isset($_POST["user_id"]) && validate_number($_POST["user_id"], 1, 2147483646)
             <label style="font-weight: bold;">Comments:</label><br/>
             <?php if (count($ques['comments']) > 0): ?>
                 <?php foreach($ques['comments'] as $cmt) : ?>
-                    Comment from <?php write($cmt['username']) ?>: <br/>
-                    <?php write($cmt['content']) ?><br/><br/>
+                    <div class="comment-outer">
+                        <div class="comment-header">Comment from <?php write($cmt['username']) ?>: </div>
+                        <div class="comment-body"><?php write($cmt['content']) ?></div>
+                    </div>
                 <?php endforeach; ?>
             <?php else: ?>
-                No comments
+                <div class="comment-outer"><div class="comment-none">No comments</div></div>
             <?php endif; ?>
-            <br>
-        </div><br/><hr/>
+        </div><hr/>
     <?php endforeach; ?>
-<?php endif; ?>
+    </div>
 
-<style>
-div.row, div.col {
-    border: thin solid lightgrey;
-    border-radius: 10px;
-    border-collapse: separate; 
-    text-align: center;
-}
-</style>
+<?php endif; ?>
 
 <?php use_template('flash.php', true, true); ?>
 <?php use_template('footer.php', true, true); ?>

@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="css/common.css">
 <link rel="stylesheet" href="css/nav.css">
 <link rel="stylesheet" href="css/form.css">
+<link rel="stylesheet" href="css/exam.css">
 <!-- third party -->
 <script src="https://cdn.staticfile.org/jquery/3.4.0/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">

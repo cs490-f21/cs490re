@@ -80,3 +80,16 @@ function check_function_constraint(string &$code, int $constraint, string $funcn
             return ($count !== false) && ($count > 1);
     }
 }
+
+function describe_constraint(int $constraint): string {
+    switch ($constraint) {
+        case 0:
+            return "No Constraint";
+        case 1:
+            return "For Loop";
+        case 2:
+            return "While Loop";
+        case 3:
+            return "Recursion";
+    }
+}

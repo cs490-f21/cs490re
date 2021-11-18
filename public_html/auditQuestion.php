@@ -106,13 +106,16 @@ Fail:;
         <a class="btn btn-primary" href="javascript:window.close();">Close</a>
     </div>
 <?php else: ?>
-    <form method="post" onsubmit="return validate(this);">
-        <label><span style="font-weight: bold;"><?php write($question['part_order']) ?>.&nbsp</span><?php write($question['title']) ?></label><br/>
-        <div><p style="font-family: "><?php write($question['description']) ?></p></div><br/>
+    <form method="post" onsubmit="return validate(this);" class="wide-form">
+        <div class="exam-desc">
+            <label><span style="font-weight: bold;"><?php write($question['part_order']) ?>.&nbsp</span><?php write($question['title']) ?></label><br/>
+            <div><p style="font-family: "><?php write($question['description']) ?></p></div>
+        </div>
+        <br/>
         <label style="font-weight: bold;">Submitted answer:</label><br/>
-        <textarea type="text" readonly="true" name="sub_answer" rows="15" cols="100"><?php write($question['answer']) ?></textarea><br/><br>
+        <textarea type="text" readonly="true" name="sub_answer" rows="15" cols="100" class="exam-input" spellcheck="false"><?php write($question['answer']) ?></textarea><br/><br>
         <label style="font-weight: bold;">Score Breakdown:</label><br/>
-            <div class="container" name="table">
+            <div class="container score-table" name="table">
                 <div class="row">
                     <div class="col">Checking</div>
                     <div class="col">Expected Output</div>
@@ -206,26 +209,22 @@ Fail:;
         <label style="font-weight: bold;">Comments:</label><br/>
         <?php if (count($question['comments']) > 0): ?>
             <?php foreach($question['comments'] as $cmt) : ?>
-                Comment from <?php write($cmt['username']) ?>: <br/>
-                <?php write($cmt['content']) ?><br/><br/>
+                <div class="comment-outer">
+                    <div class="comment-header">Comment from <?php write($cmt['username']) ?>: </div>
+                    <div class="comment-body"><?php write($cmt['content']) ?></div>
+                </div>
             <?php endforeach; ?>
+        <?php else: ?>
+            <div class="comment-outer"><div class="comment-none">No comments</div></div>
         <?php endif; ?>
+        <br/>
         <label style="font-weight: bold;">Add a comment:</label><br/>
-        <textarea type="text" name="sub_comment" rows="3" cols="100"></textarea><br/>
+        <textarea type="text" name="sub_comment" rows="3" cols="100" class="comment-input"></textarea><br/>
         <input type="hidden" name="sub_present" value="1" />
         <input type="hidden" name="sub_id" value="<?php write($question['id']) ?>" />
         <input type="submit" class="btn btn-primary" name="submit" value="Submit" />
     </form>
 <?php endif; ?>
-
-<style>
-div.row, div.col {
-    border: thin solid lightgrey;
-    border-radius: 10px;
-    border-collapse: separate; 
-    text-align: center;
-}
-</style>
 
 <?php use_template('flash.php', true, true); ?>
 <?php use_template('footer.php', true, true); ?>

@@ -2,6 +2,8 @@
 
 <?php use_template('header.php', true, true); ?>
 
+<title>Exam in Progress</title>
+
 <?php use_template('resource.php', true, true); ?>
 <?php use_template('nav.php', true, true); ?>
 
@@ -17,9 +19,10 @@ if (user_login_check()) {
 ?>
 
 <?php if(isset($_POST["exam_id"])): ?>
-<title>Exam in Progress</title>
 
-<form method="POST">
+<h1> Taking exam <?php write(getExamName($_POST["exam_id"])); ?>. Good luck!! </h1>
+
+<form method="POST" class="wide-form">
     <?php 
     if(!empty($_POST["exam_id"])) {
         $questions = generateExam((int)$_POST["exam_id"]);
@@ -27,9 +30,9 @@ if (user_login_check()) {
     }
     $_SESSION["exam_id"] = (int)$_POST["exam_id"];
     ?>
-    <h1> Taking exam <?php write(getExamName($_POST["exam_id"])); ?>. Good luck!! </h1>
+
     <?php foreach($questions as $q) : ?>
-    <div>
+    <div class="exam-desc">
         <?php 
             write($q_order . ") [" . $q["point"] . " points] " . $q["description"]); 
             $q_order++;
@@ -37,7 +40,7 @@ if (user_login_check()) {
     </div><br>
     <div>
         <label style="font-weight: bold" for="solutions[]">Write your code here:</label><br>
-        <textarea type="text" name="solutions[]" placeholder="Code Here" rows="15" cols="100"></textarea><br><br>
+        <textarea type="text" name="solutions[]" placeholder="Your Answer" rows="15" cols="100" class="exam-input" spellcheck="false"></textarea>
     </div><hr/>
     <?php endforeach; ?>
     <div>
@@ -87,6 +90,21 @@ if (user_login_check()) {
 </form>
 <?php endif; ?>
 
+<script type="text/javascript">
+    // indent tab implementation
+    $('.exam-input').keydown(function(e) {
+        if (e.key == 'Tab') {
+            e.preventDefault();
+            var start = this.selectionStart;
+            var end = this.selectionEnd;
+
+            this.value = this.value.substring(0, start) +
+                "    " + this.value.substring(end);
+
+            this.selectionStart = this.selectionEnd = start + 4;
+        }
+    });
+</script>
 
 <?php use_template('flash.php', true, true); ?>
 <?php use_template('footer.php', true, true); ?>

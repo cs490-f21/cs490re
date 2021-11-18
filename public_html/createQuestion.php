@@ -80,8 +80,8 @@ if (isset($_POST['submit'])) {
             <label for="constraint">Question Constraint:</label>
             <select name="constraint">         
                <option value="0">No Constraint</option>
-                <option value="1">For</option>
-                <option value="2">While</option>
+                <option value="1">For Loop</option>
+                <option value="2">While Loop</option>
                 <option value="3">Recursion</option>
             </select>
         </div>

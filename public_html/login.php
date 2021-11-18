@@ -5,6 +5,13 @@ require_once(__DIR__ . '/lib.php');
 <?php use_template('header.php', true, true); ?>
 
 <title>Login</title>
+<style type="text/css">
+body {
+  background-image: url('static/eberhardt_HDR.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+</style>
 
 <?php use_template('resource.php', true, true); ?>
 <?php use_template('nav.php', true, true); ?>
@@ -44,8 +51,10 @@ if (isset($_POST["submit"])) {
 }
 ?>
 <div>
-    <h1>Login</h1>
-    <form class="center-form" method="POST" onsubmit="return validate(this);">
+    
+    <form class="center-form" method="POST" onsubmit="return validate(this);" style="background-color: #fff;">
+        <h1>Login</h1>
+        <hr>
         <div class="mb-3">
             <label for="name">Identity: </label>
             <input type="name" class="form-control" id="name" name="name" value="<?php write($disp_name); ?>" placeholder="Email or Username" required />
