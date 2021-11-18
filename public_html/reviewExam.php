@@ -92,66 +92,20 @@ if(isset($_POST["exam_id"]) && validate_number($_POST["exam_id"], 1, 2147483646)
                     <div class="col">Autograded Score</div>
                     <div class="col">Manually Graded Score</div>
                 </div>
-                <div class="row">
-                    <div class="col"><?php write($ques['breakdowns'][0]["subject"]); ?></div>
-                    <div class="col"><?php write($ques['breakdowns'][0]["expected"]); ?></div>
-                    <div class="col"><?php write($ques['breakdowns'][0]["result"]); ?></div>
-                    <div class="col"><?php write($ques['breakdowns'][0]["autoscore"].'/'.$ques['breakdowns'][0]["maxscore"]); ?></div>
-                    <div class="col">
-                        <?php 
-                            ($ques['breakdowns'][0]["manualscore"] == null) ? 
-                            write("N/A") : write($ques['breakdowns'][0]["manualscore"].'/'.$ques['breakdowns'][0]["maxscore"]); 
-                        ?>
+                <?php for ($j = 0; $j < count($question['breakdowns']); $j++): ?>
+                    <div class="row">
+                        <div class="col"><?php write($question['breakdowns'][$j]["subject"]); ?></div>
+                        <div class="col"><?php write($question['breakdowns'][$j]["expected"]); ?></div>
+                        <div class="col"><?php write($question['breakdowns'][$j]["result"]); ?></div>
+                        <div class="col"><?php write($question['breakdowns'][$j]["autoscore"].'/'.$question['breakdowns'][$j]["maxscore"]); ?></div>
+                        <div class="col">
+                            <?php 
+                                ($ques['breakdowns'][$j]["manualscore"] === null) ? 
+                                write("N/A") : write($ques['breakdowns'][$j]["manualscore"].'/'.$ques['breakdowns'][$j]["maxscore"]); 
+                            ?>
+                        </div>                
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col"><?php write($ques['breakdowns'][1]["subject"]); ?></div>
-                    <div class="col"><?php write($ques['breakdowns'][1]["expected"]); ?></div>
-                    <div class="col"><?php write($ques['breakdowns'][1]["result"]); ?></div>
-                    <div class="col"><?php write($ques['breakdowns'][1]["autoscore"].'/'.$ques['breakdowns'][1]["maxscore"]); ?></div>
-                    <div class="col">
-                        <?php 
-                            ($ques['breakdowns'][1]["manualscore"] == null) ? 
-                            write("N/A") : write($ques['breakdowns'][1]["manualscore"].'/'.$ques['breakdowns'][1]["maxscore"]); 
-                        ?>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col"><?php write($ques['breakdowns'][2]["subject"]); ?></div>
-                    <div class="col"><?php write($ques['breakdowns'][2]["expected"]); ?></div>
-                    <div class="col"><?php write($ques['breakdowns'][2]["result"]); ?></div>
-                    <div class="col"><?php write($ques['breakdowns'][2]["autoscore"].'/'.$ques['breakdowns'][2]["maxscore"]); ?></div>
-                    <div class="col">
-                        <?php 
-                            ($ques['breakdowns'][2]["manualscore"] == null) ? 
-                            write("N/A") : write($ques['breakdowns'][2]["manualscore"].'/'.$ques['breakdowns'][2]["maxscore"]);
-                        ?>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col"><?php write($ques['breakdowns'][3]["subject"]); ?></div>
-                    <div class="col"><?php write($ques['breakdowns'][3]["expected"]); ?></div>
-                    <div class="col"><?php write($ques['breakdowns'][3]["result"]); ?></div>
-                    <div class="col"><?php write($ques['breakdowns'][3]["autoscore"].'/'.$ques['breakdowns'][3]["maxscore"]); ?></div>
-                    <div class="col">
-                        <?php 
-                            ($ques['breakdowns'][3]["manualscore"] == null) ? 
-                            write("N/A") : write($ques['breakdowns'][3]["manualscore"].'/'.$ques['breakdowns'][3]["maxscore"]);
-                        ?>
-                    </div>
-                </div>
-                <div class="row">
-                <div class="col"><?php write($ques['breakdowns'][4]["subject"]); ?></div>
-                    <div class="col"><?php write($ques['breakdowns'][4]["expected"]); ?></div>
-                    <div class="col"><?php write($ques['breakdowns'][4]["result"]); ?></div>
-                    <div class="col"><?php write($ques['breakdowns'][4]["autoscore"].'/'.$ques['breakdowns'][4]["maxscore"]); ?></div>
-                    <div class="col">
-                        <?php 
-                            ($ques['breakdowns'][4]["manualscore"] == null) ? 
-                            write("N/A") : write($ques['breakdowns'][4]["manualscore"].'/'.$ques['breakdowns'][4]["maxscore"]); 
-                        ?>
-                    </div>
-                </div>
+                <?php endfor; ?>
                 <div class="row justify-content-center"><b> Your Current Score: 
                     <?php
                         $max_score = 0;

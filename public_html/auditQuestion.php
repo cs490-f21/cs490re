@@ -45,9 +45,9 @@ if (isset($_POST['sub_present']) && $_POST['sub_present'] == "1") {
         $valid = false;
     }
 
-    if(!isset($_POST["sub_answer"]) || !validate_string($_POST["sub_answer"], 4096)) {
-        $valid = false;
-    }
+    //if(!isset($_POST["sub_answer"]) || !validate_string($_POST["sub_answer"], 4096)) {
+    //    $valid = false;
+    //}
 
     if(!isset($_POST["sub_comment"]) || !validate_string($_POST["sub_comment"], 1024)) {
         $valid = (strlen($_POST["sub_comment"]) == 0);
@@ -114,76 +114,22 @@ Fail:;
                     <div class="col">Autograded Score</div>
                     <div class="col">Manually Graded Score</div>
                 </div>
-                <input type="hidden" name="b_id[]" value="<?php write($question['breakdowns'][0]['id']); ?>"></input>
-                <div class="row">
-                    <div class="col"><?php write($question['breakdowns'][0]["subject"]); ?></div>
-                    <div class="col"><?php write($question['breakdowns'][0]["expected"]); ?></div>
-                    <div class="col"><?php write($question['breakdowns'][0]["result"]); ?></div>
-                    <div class="col"><?php write($question['breakdowns'][0]["autoscore"].'/'.$question['breakdowns'][0]["maxscore"]); ?></div>
-                    <div class="col">
-                        <input type="text" name="new_grade[]" 
-                        placeholder="Current: <?php ($question['breakdowns'][0]["manualscore"] == null) ? 
-                                write($question['breakdowns'][0]["autoscore"].'/'.$question['breakdowns'][0]["maxscore"]) : 
-                                write($question['breakdowns'][0]["manualscore"].'/'.$question['breakdowns'][0]["maxscore"]); ?>">
-                        </input>
-                    </div>                
-                </div>
-                <input type="hidden" name="b_id[]" value="<?php write($question['breakdowns'][1]['id']); ?>"></input>
-                <div class="row">
-                    <div class="col"><?php write($question['breakdowns'][1]["subject"]); ?></div>
-                    <div class="col"><?php write($question['breakdowns'][1]["expected"]); ?></div>
-                    <div class="col"><?php write($question['breakdowns'][1]["result"]); ?></div>
-                    <div class="col"><?php write($question['breakdowns'][1]["autoscore"].'/'.$question['breakdowns'][1]["maxscore"]); ?></div>
-                    <div class="col">
-                        <input type="text" name="new_grade[]" 
-                        placeholder="Current: <?php ($question['breakdowns'][1]["manualscore"] == null) ? 
-                                write($question['breakdowns'][1]["autoscore"].'/'.$question['breakdowns'][1]["maxscore"]) : 
-                                write($question['breakdowns'][1]["manualscore"].'/'.$question['breakdowns'][1]["maxscore"]); ?>">
-                        </input>
-                    </div>                
-                </div>
-                <input type="hidden" name="b_id[]" value="<?php write($question['breakdowns'][2]['id']); ?>"></input>
-                <div class="row">
-                    <div class="col"><?php write($question['breakdowns'][2]["subject"]); ?></div>
-                    <div class="col"><?php write($question['breakdowns'][2]["expected"]); ?></div>
-                    <div class="col"><?php write($question['breakdowns'][2]["result"]); ?></div>
-                    <div class="col"><?php write($question['breakdowns'][2]["autoscore"].'/'.$question['breakdowns'][2]["maxscore"]); ?></div>
-                    <div class="col">
-                        <input type="text" name="new_grade[]" 
-                        placeholder="Current: <?php ($question['breakdowns'][2]["manualscore"] == null) ? 
-                                write($question['breakdowns'][2]["autoscore"].'/'.$question['breakdowns'][2]["maxscore"]) : 
-                                write($question['breakdowns'][2]["manualscore"].'/'.$question['breakdowns'][2]["maxscore"]); ?>">
-                        </input>
+                <?php for ($j = 0; $j < count($question['breakdowns']); $j++): ?>
+                    <input type="hidden" name="b_id[]" value="<?php write($question['breakdowns'][$j]['id']); ?>"></input>
+                    <div class="row">
+                        <div class="col"><?php write($question['breakdowns'][$j]["subject"]); ?></div>
+                        <div class="col"><?php write($question['breakdowns'][$j]["expected"]); ?></div>
+                        <div class="col"><?php write($question['breakdowns'][$j]["result"]); ?></div>
+                        <div class="col"><?php write($question['breakdowns'][$j]["autoscore"].'/'.$question['breakdowns'][$j]["maxscore"]); ?></div>
+                        <div class="col">
+                            <input type="text" name="new_grade[]" 
+                            placeholder="Current: <?php ($question['breakdowns'][$j]["manualscore"] === null) ? 
+                                    write($question['breakdowns'][$j]["autoscore"].'/'.$question['breakdowns'][$j]["maxscore"]) : 
+                                    write($question['breakdowns'][$j]["manualscore"].'/'.$question['breakdowns'][$j]["maxscore"]); ?>">
+                            </input>
+                        </div>                
                     </div>
-                </div>
-                <input type="hidden" name="b_id[]" value="<?php write($question['breakdowns'][3]['id']); ?>"></input>
-                <div class="row">
-                    <div class="col"><?php write($question['breakdowns'][3]["subject"]); ?></div>
-                    <div class="col"><?php write($question['breakdowns'][3]["expected"]); ?></div>
-                    <div class="col"><?php write($question['breakdowns'][3]["result"]); ?></div>
-                    <div class="col"><?php write($question['breakdowns'][3]["autoscore"].'/'.$question['breakdowns'][3]["maxscore"]); ?></div>
-                    <div class="col">
-                        <input type="text" name="new_grade[]" 
-                        placeholder="Current: <?php ($question['breakdowns'][3]["manualscore"] == null) ? 
-                                write($question['breakdowns'][3]["autoscore"].'/'.$question['breakdowns'][3]["maxscore"]) : 
-                                write($question['breakdowns'][3]["manualscore"].'/'.$question['breakdowns'][3]["maxscore"]); ?>">
-                        </input>
-                    </div>
-                </div>
-                <input type="hidden" name="b_id[]" value="<?php write($question['breakdowns'][4]['id']); ?>"></input>
-                <div class="row">
-                    <div class="col"><?php write($question['breakdowns'][4]["subject"]); ?></div>
-                    <div class="col"><?php write($question['breakdowns'][4]["expected"]); ?></div>
-                    <div class="col"><?php write($question['breakdowns'][4]["result"]); ?></div>
-                    <div class="col"><?php write($question['breakdowns'][4]["autoscore"].'/'.$question['breakdowns'][4]["maxscore"]); ?></div>
-                    <div class="col">
-                        <input type="text" name="new_grade[]" 
-                        placeholder="Current: <?php ($question['breakdowns'][4]["manualscore"] == null) ? 
-                                write($question['breakdowns'][4]["autoscore"].'/'.$question['breakdowns'][4]["maxscore"]) : 
-                                write($question['breakdowns'][4]["manualscore"].'/'.$question['breakdowns'][4]["maxscore"]); ?>">
-                        </input>
-                    </div>
-                </div>
+                <?php endfor; ?>
                 <div class="row justify-content-center"> <b> Your Current Score: 
                 <?php
                     $max_score = 0;

@@ -22,7 +22,7 @@ function change_grade(int $breakdown, int | null $grade) {
         $stmtSub->execute([":brk" => $breakdown]);
         $sub = $stmtSub->fetch(PDO::FETCH_ASSOC);
 
-        if ($grade != null) {
+        if ($grade !== null) {
             $grade = min($grade, $sub['maxscore']);
             $grade = max($grade, 0);
 
