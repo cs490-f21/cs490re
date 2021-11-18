@@ -316,7 +316,7 @@ function __collect_result_core(object $db, object $stmtSub, array $argSub, array
     $results = [];
     $stmtBrk = $db->prepare(
         "SELECT *, COALESCE(manualscore, autoscore, maxscore) as finalscore FROM Breakdowns
-            WHERE for_submission = :submission"
+            WHERE for_submission = :submission ORDER BY id"
     );
 
     try {

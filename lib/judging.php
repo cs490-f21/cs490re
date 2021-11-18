@@ -57,7 +57,7 @@ function fix_function_name(string &$code, string $testcase, string &$casename, s
     $funcname = $matches[1][0];
 
     if ($funcname !== $casename) {
-        $code = str_replace($matches[0], "def " . $casename . "(", $code);
+        $code = preg_replace("/\b(" . $funcname . ")\s*\(/", $casename . "(", $code);
         return false;
     }
 
@@ -70,13 +70,13 @@ function check_function_constraint(string &$code, int $constraint, string $funcn
             return true;
         case 1:
             $pattern = "/\bfor\s*\(/";
-            return preg_match($pattern, $code) !== false;
+            return preg_match_all($pattern, $code) !== false;
         case 2:
             $pattern = "/\bwhile\s*\(/";
-            return preg_match($pattern, $code) !== false;
+            return preg_match_all($pattern, $code) !== false;
         case 3:
             $pattern = "/\b(" . $funcname . ")\s*\(/";
-            $count = preg_match($pattern, $code);
+            $count = preg_match_all($pattern, $code);
             return ($count !== false) && ($count > 1);
     }
 }
