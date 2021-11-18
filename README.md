@@ -42,3 +42,21 @@
 ##### Kush Patel (kp673)
 
 - None (Unknown Reason)
+
+#### Stage 3
+
+##### Jiyuan Zhang (jz579)
+
+- Constraint Checker
+- Breakdown-enabled Grading Infra
+- Site Styling
+
+##### Wai Lun Chan (wc347)
+
+- Question Filter/Selector
+- Breakdown Display
+- Display Formatting
+
+##### Kush Patel (kp673)
+
+- None (Quitted)
