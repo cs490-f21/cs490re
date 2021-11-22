@@ -99,6 +99,19 @@ if (!user_admin_check()) {
     <div class="container">
         <div class="row">
             <div class="col" style="text-align: center">
+                <h1>Assign Points To Questions</h1>
+                <form method="POST" class="form-control">
+                     <div class="mb-3">
+                        <label> Title: </label>
+                        <input type="text" name="title" class="form-control" placeholder="Exam title"> 
+                    </div>
+                    <div class="mb-3">
+                        <label> Description: </label>
+                        <textarea type="text" name="desc" class="form-control" placeholder="Question Description" rows="5"></textarea>
+                     </div>
+                </form>
+            </div>
+            <div class="col" style="text-align: center">
                 <h1>Filter By:</h1>
                 <div class="mb-3">
                     <input type="radio" id="td" name="filter"></input>
@@ -133,11 +146,7 @@ if (!user_admin_check()) {
                     <label><b>Keyword:</b></label>
                     <input type="text" id="keyword"></input>
                 </div>                
-            </div>
-            <div class="col">
-                <div>
-                    <h1>Question Bank</h1>
-                </div>
+                <div><h1>Question Bank</h1></div>
                 <form method="POST">
                     <table>
                         <tr>
@@ -147,7 +156,7 @@ if (!user_admin_check()) {
                         <?php $questions = load_problems(); ?>
                         <?php foreach($questions as $q): ?> 
                         <tr name="<?php write($q['type'] . $q['level'])?>">
-                            <td style="text-align:center"> 
+                            <td style="text-align:center">
                                 <input type="checkbox" name="q_id[]" value="<?php write($q['id']); ?>" > 
                             </td>
                             <td>

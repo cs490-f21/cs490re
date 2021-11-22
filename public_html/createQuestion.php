@@ -61,7 +61,8 @@ if (isset($_POST['submit'])) {
     <div class="container">
         <div class="row">
             <div class="col">
-                <form class="input-form" method="POST"> 
+                <h1> Add Question </h1>
+                <form class="input-form" method="POST" style="width: auto"> 
                     <div class="mb-3">
                         <label for="title">Title:</label>
                         <input type="text" class="form-control" name="title" placeholder="Question Title"> 
