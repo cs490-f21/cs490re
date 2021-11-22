@@ -39,7 +39,7 @@ function load_problems(){
 }
 
 function validate_cases(array $cases) {
-    $min_cases = 1;
+    $min_cases = 2;
     $case_count = 0;
     $isValid = true;
     foreach($cases as $case) {
@@ -51,7 +51,7 @@ function validate_cases(array $cases) {
         }
     }
     if ($case_count < $min_cases) {
-        addFlash("Minimum of 1 test case required");
+        addFlash("Minimum of 2 test case required");
         $isValid = false;
     }
     return $isValid;
