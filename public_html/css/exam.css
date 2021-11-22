@@ -93,3 +93,28 @@
     text-align: center;
     width: 100%
 }
+
+.question-table {
+    border: 2px solid lightgrey;
+    border-collapse: collapse;
+    border-radius: 4px;
+    display: table;
+}
+
+.question-table .row {
+    border: 1px solid lightgrey;
+    border-collapse: collapse;
+    display: table-row;
+}
+
+.question-table .col {
+    border: 1px solid lightgrey;
+    border-collapse: collapse;
+    display: table-cell;
+}
+
+.question-table .select {
+    width: 2rem;
+    max-width: 2rem;
+    padding: 0rem 0.5rem;
+}

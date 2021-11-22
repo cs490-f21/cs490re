@@ -188,29 +188,29 @@ if (isset($_POST['submit'])) {
                     <h1>Question Bank</h1>
                 </div>
 
-                <table>
-                    <tr>
-                        <th> Checkbox </th>
-                        <th> Description </th>
-                    </tr>
-                <?php $questions = load_problems(); ?>
+                <div class="question-table">
+                    <div class="row">
+                        <div class="col select"></div>
+                        <div class="col"> Description </div>
+                    </div>
+                    <?php $questions = load_problems(); ?>
                     <?php foreach($questions as $q): ?> 
-                    <tr name="<?php write($q['type'] . $q['level'])?>">
-                        <td style="text-align:center"> 
-                            <input type="checkbox" name="q_id[]" value="<?php write($q['id']); ?>" > 
-                        </td>
-                        <td>
-                        <p id="<?php write($q['id']); ?>"> 
-                            <b><u>Id:</u></b> <?php write($q['id']); ?> <br>
-                            <b><u>Title:</u></b> <?php write($q['title']); ?> <br>                                  
-                            <b><u>Description:</u></b> <?php write($q['description']); ?> <br>
-                            <b><u>Type:</u></b> <?php write(display_type($q['type'])); ?> <br>
-                            <b><u>Level:</u></b> <?php write(display_level($q['level'])); ?> <br>
-                        </p>
-                        </td>
-                    </tr>
+                        <div name="<?php write($q['type'] . $q['level'])?>" class="row">
+                            <div style="text-align:center" class="col select"> 
+                                <input type="checkbox" name="q_id[]" value="<?php write($q['id']); ?>" > 
+                            </div>
+                                <div class="col">
+                                <p id="<?php write($q['id']); ?>"> 
+                                    <b><u>Id:</u></b> <?php write($q['id']); ?> <br>
+                                    <b><u>Title:</u></b> <?php write($q['title']); ?> <br>                                  
+                                    <b><u>Description:</u></b> <?php write($q['description']); ?> <br>
+                                    <b><u>Type:</u></b> <?php write(display_type($q['type'])); ?> <br>
+                                    <b><u>Level:</u></b> <?php write(display_level($q['level'])); ?> <br>
+                                </p>
+                            </div>
+                        </div>
                     <?php endforeach; ?> 
-                </table>
+                </div>
                 <br>
             </div>
         </div>
@@ -306,13 +306,6 @@ if (isset($_POST['submit'])) {
         })
     });
 </script>
-<style>
-table, th, td{
-    border: thin solid lightgrey;
-    border-radius: 10px;
-    border-collapse: separate;
-}
-</style>
 
 <?php use_template('flash.php', true, true); ?>
 <?php use_template('footer.php', true, true); ?>
