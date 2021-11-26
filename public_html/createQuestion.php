@@ -70,7 +70,7 @@ if (isset($_POST['submit'])) {
                     <div class="mb-3">
                         <label for="types">Question type:</label>
                         <select name="types">         
-                        <option value="">Select here</option>
+                            <option value="">Select here</option>
                             <option value="1">For Loop</option>
                             <option value="2">While Loop</option>
                             <option value="3">Recursion</option>
@@ -169,7 +169,7 @@ if (isset($_POST['submit'])) {
                         <option value="4">Conditional</option>
                         <option value="5">Strings</option>
                         <option value="6">Lists</option>             
-                </select>
+                    </select>
                 </div>  
                 <div id="difficulty" style="display: none;">
                     <label><b>Question Difficulty:</b></label>
@@ -184,35 +184,31 @@ if (isset($_POST['submit'])) {
                     <label><b>Keyword:</b></label>
                     <input type="text" id="keyword"></input>
                 </div>  
-
-                <div>
-                    <h1>Question Bank</h1>
-                </div>
-
-                <div class="question-table">
-                    <div class="row">
-                        <div class="col select"></div>
-                        <div class="col"> Description </div>
-                    </div>
+              
+                <div><h1>Question Bank</h1></div>
+                <table>
+                    <tr>
+                        <th> Checkbox </th>
+                        <th> Description </th>
+                    </tr>
                     <?php $questions = load_problems(); ?>
                     <?php foreach($questions as $q): ?> 
-                        <div name="<?php write($q['type'] . $q['level'])?>" class="row">
-                            <div style="text-align:center" class="col select"> 
-                                <input type="checkbox" name="q_id[]" value="<?php write($q['id']); ?>" > 
-                            </div>
-                                <div class="col">
-                                <p id="<?php write($q['id']); ?>"> 
-                                    <b><u>Id:</u></b> <?php write($q['id']); ?> <br>
-                                    <b><u>Title:</u></b> <?php write($q['title']); ?> <br>                                  
-                                    <b><u>Description:</u></b> <?php write($q['description']); ?> <br>
-                                    <b><u>Type:</u></b> <?php write(display_type($q['type'])); ?> <br>
-                                    <b><u>Level:</u></b> <?php write(display_level($q['level'])); ?> <br>
-                                </p>
-                            </div>
-                        </div>
+                    <tr name="<?php write($q['type'] . $q['level'])?>">
+                        <td style="text-align:center">
+                            <input type="checkbox" name="q_id[]" value="<?php write($q['id']); ?>)" > 
+                        </td>
+                        <td>
+                            <p id="<?php write($q['id']); ?>"> 
+                                <b><u>Id:</u></b> <?php write($q['id']); ?> <br>
+                                <b><u>Title:</u></b> <?php write($q['title']); ?> <br>                                  
+                                <b><u>Description:</u></b> <?php write($q['description']); ?> <br>
+                                <b><u>Type:</u></b> <?php write(display_type($q['type'])); ?> <br>
+                                <b><u>Level:</u></b> <?php write(display_level($q['level'])); ?> <br>
+                            </p>
+                        </td>
+                    </tr>
                     <?php endforeach; ?> 
-                </div>
-                <br>
+                </table><br>
             </div>
         </div>
     </div>
@@ -226,7 +222,6 @@ if (isset($_POST['submit'])) {
             let row = document.getElementsByTagName("tr");
             let name = type + level;
             for(var i = 1; i < row.length; i++) {        
-                console.log(row[i].getAttribute('name').charAt(0) + " = " + type + level + "   Type = " + type);
                 if (row[i].getAttribute('name').charAt(0) != type && type != 0) {
                     row[i].style.display = "none";
                 }
@@ -307,7 +302,13 @@ if (isset($_POST['submit'])) {
         })
     });
 </script>
-
+<style>
+table, th, td{
+    border: thin solid lightgrey;
+    border-radius: 10px;
+    border-collapse: separate;
+}
+</style>
 <?php use_template('flash.php', true, true); ?>
 <?php use_template('footer.php', true, true); ?>
 
