@@ -137,7 +137,6 @@ if (isset($_POST["submit"])) {
                     </td>
                     <td class="col">
                         <p id="<?php write($q['id']); ?>"> 
-                            <b><u>Id:</u></b> <?php write($q['id']); ?> <br>
                             <b><u>Title:</u></b> <?php write($q['title']); ?> <br>                                  
                             <b><u>Description:</u></b> <?php write($q['description']); ?> <br>
                             <b><u>Type:</u></b> <?php write(display_type($q['type'])); ?> <br>
