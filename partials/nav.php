@@ -8,11 +8,7 @@
         <li class="nav-sep">|</li>
 
         <li class="nav-item"><a href="home.php">Home</a></li>
-
-        <?php if (user_login_check()) : ?>
-            <li class="nav-item"><a href="profile.php">Profile</a></li>
-        <?php endif; ?>
-
+        
         <?php if (!user_login_check()) : ?>
             <li class="nav-item"><a href="login.php">Login</a></li>
             <li class="nav-item"><a href="register.php">Register</a></li>

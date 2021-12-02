@@ -109,7 +109,7 @@ if (isset($_POST['submit'])) {
                         <input type="text" name="cases[]" placeholder="Test Case 1">
                     </div>
                     <div class="mb-3">
-                        <label for="cases[]">Test Case 1 Expected Output:</label>
+                        <label for="cases[]">Expected Output 1:</label>
                         <input type="text" name="cases[]" placeholder="Output for Test Case 1">
                     </div>
                     <div class="mb-3">
@@ -117,7 +117,7 @@ if (isset($_POST['submit'])) {
                         <input type="text" name="cases[]" placeholder="Test Case 2">
                     </div>
                     <div class="mb-3">
-                        <label for="cases[]">Test Case 2 Expected Output:</label>
+                        <label for="cases[]">Expected Output 2:</label>
                         <input type="text" name="cases[]" placeholder="Output for Test Case 2">
                     </div>
                     <div class="mb-3">
@@ -125,7 +125,7 @@ if (isset($_POST['submit'])) {
                         <input type="text" name="cases[]" placeholder="Test Case 3">
                     </div>
                     <div class="mb-3">
-                        <label for="cases[]">Test Case 3 Expected Output:</label>
+                        <label for="cases[]">Expected Output 3:</label>
                         <input type="text" name="cases[]" placeholder="Output for Test Case 3">
                     </div>
                     <div class="mb-3">
@@ -133,7 +133,7 @@ if (isset($_POST['submit'])) {
                         <input type="text" name="cases[]" placeholder="Test Case 4">
                     </div>
                     <div class="mb-3">
-                        <label for="cases[]">Test Case 4 Expected Output:</label>
+                        <label for="cases[]">Expected Output 4:</label>
                         <input type="text" name="cases[]" placeholder="Output for Test Case 4">
                     </div>
                     <div class="mb-3">
@@ -141,7 +141,7 @@ if (isset($_POST['submit'])) {
                         <input type="text" name="cases[]" placeholder="Test Case 5">
                     </div>
                     <div class="mb-3">
-                        <label for="cases[]">Test Case 5 Expected Output:</label>
+                        <label for="cases[]">Expected Output 5:</label>
                         <input type="text" name="cases[]" placeholder="Output for Test Case 5">
                     </div>
                     <div>
@@ -186,18 +186,14 @@ if (isset($_POST['submit'])) {
                 </div>  
               
                 <div><h1>Question Bank</h1></div>
-                <table>
-                    <tr>
-                        <th> Checkbox </th>
-                        <th> Description </th>
+                <table class="question-table">
+                    <tr class="row">
+                        <th class="col"> Description </th>
                     </tr>
                     <?php $questions = load_problems(); ?>
                     <?php foreach($questions as $q): ?> 
-                    <tr name="<?php write($q['type'] . $q['level'])?>">
-                        <td style="text-align:center">
-                            <input type="checkbox" name="q_id[]" value="<?php write($q['id']); ?>)" > 
-                        </td>
-                        <td>
+                    <tr name="<?php write($q['type'] . $q['level'])?>" class="row bank">
+                        <td class="col">
                             <p id="<?php write($q['id']); ?>"> 
                                 <b><u>Id:</u></b> <?php write($q['id']); ?> <br>
                                 <b><u>Title:</u></b> <?php write($q['title']); ?> <br>                                  
@@ -219,9 +215,9 @@ if (isset($_POST['submit'])) {
         $("#type").change(function() {
             let type = document.getElementById("type").value;
             let level = document.getElementById("level").value;
-            let row = document.getElementsByTagName("tr");
+            let row = document.querySelectorAll(".bank");
             let name = type + level;
-            for(var i = 1; i < row.length; i++) {        
+            for(var i = 0; i < row.length; i++) {        
                 if (row[i].getAttribute('name').charAt(0) != type && type != 0) {
                     row[i].style.display = "none";
                 }
@@ -239,9 +235,9 @@ if (isset($_POST['submit'])) {
         $("#level").change(function() {
             let level = document.getElementById("level").value;
             let type = document.getElementById("type").value;
-            let row = document.getElementsByTagName("tr");
+            let row = document.querySelectorAll(".bank");
             let name = type + level;
-            for(var i = 1; i < row.length; i++) {        
+            for(var i = 0; i < row.length; i++) {        
                 if (row[i].getAttribute('name').charAt(1) != level && level != 0) {
                     row[i].style.display = "none";
                 }
@@ -257,10 +253,10 @@ if (isset($_POST['submit'])) {
             }
         })
         $("#keyword").change(function() {
-            let row = document.getElementsByTagName("tr");
+            let row = document.querySelectorAll(".bank");
             let keyword = document.querySelector('#keyword').value;
             keyword = keyword.toLowerCase();
-            for(var i = 1; i < row.length; i++) {        
+            for(var i = 0; i < row.length; i++) {        
                 var desc = row[i].textContent.match(/(?<=Description: ).*/);
                 desc = desc[0].toLowerCase();
                 if(desc.includes(keyword)) {
@@ -291,7 +287,9 @@ if (isset($_POST['submit'])) {
                 document.getElementById('kword').style.display = "block";
                 document.getElementById("type").value = 0;
                 document.getElementById("level").value = 0;
-                document.getElementsByTagName("tr").style.display = "table-row";
+                let arr = document.querySelectorAll(".bank");
+                for(let i = arr.length - 1; i >= 0; i--)
+                    arr[i].style.display = "table-row";
             }
             else {
                 document.getElementById('qtype').style.display = "block";
