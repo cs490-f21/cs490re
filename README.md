@@ -60,3 +60,14 @@
 ##### Kush Patel (kp673)
 
 - None (Quitted)
+
+#### Stage 4
+
+##### Jiyuan Zhang (jz579)
+
+- UI Optimization
+- Bugfix
+
+##### Wai Lun Chan (wc347)
+
+- UI Optimization
